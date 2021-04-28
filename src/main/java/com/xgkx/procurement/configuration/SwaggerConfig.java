@@ -2,13 +2,19 @@ package com.xgkx.procurement.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import springfox.documentation.builders.ParameterBuilder;
+import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * swagger配置文件
@@ -40,7 +46,19 @@ public class SwaggerConfig {
 
     @Bean
     public Docket customDocket() {
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo());
+        // 添加token
+        List<Parameter> parameters = new ArrayList<>();
+        parameters.add(new ParameterBuilder()
+                .name("token")
+                .description("认证token")
+                .modelRef(new ModelRef("string"))
+                .parameterType("header")
+                .required(false)
+                .build());
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("api")
+                .apiInfo(apiInfo())
+                .globalOperationParameters(parameters);
     }
 
     private ApiInfo apiInfo() {
