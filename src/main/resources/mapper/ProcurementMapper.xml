@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgkx.procurement.mapper.ProcurementMapper">
+  <resultMap id="BaseResultMap" type="com.xgkx.procurement.entity.Procurement">
+    <id column="pro_id" jdbcType="INTEGER" property="proId" />
+    <result column="pro_time" jdbcType="TIMESTAMP" property="proTime" />
+    <result column="org_id" jdbcType="INTEGER" property="orgId" />
+    <result column="item_id" jdbcType="INTEGER" property="itemId" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="is_pay" jdbcType="BOOLEAN" property="isPay" />
+    <result column="is_arrive" jdbcType="BOOLEAN" property="isArrive" />
+    <result column="cost" jdbcType="DECIMAL" property="cost" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pro_id, pro_time, org_id, item_id, unit_id, price, `count`, is_pay, is_arrive, cost,
+    create_by, create_time, update_by, update_time
+  </sql>
+
+</mapper>

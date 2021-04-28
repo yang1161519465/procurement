@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgkx.procurement.mapper.CategoryMapper">
+  <resultMap id="BaseResultMap" type="com.xgkx.procurement.entity.Category">
+    <id column="cate_id" jdbcType="INTEGER" property="cateId" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="cate_name" jdbcType="VARCHAR" property="cateName" />
+    <result column="seq" jdbcType="INTEGER" property="seq" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    cate_id, parent_id, cate_name, seq, create_by, create_time, update_by, update_time
+  </sql>
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgkx.procurement.mapper.BathMapper">
+  <resultMap id="BaseResultMap" type="com.xgkx.procurement.entity.Bath">
+    <id column="bath_id" jdbcType="INTEGER" property="bathId" />
+    <result column="path_name" jdbcType="VARCHAR" property="pathName" />
+    <result column="report_start_time" jdbcType="TIMESTAMP" property="reportStartTime" />
+    <result column="report_stop_time" jdbcType="TIMESTAMP" property="reportStopTime" />
+    <result column="bath_status" jdbcType="INTEGER" property="bathStatus" />
+    <result column="org_id" jdbcType="INTEGER" property="orgId" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    bath_id, path_name, report_start_time, report_stop_time, bath_status, org_id, create_by,
+    create_time, update_by, update_time
+  </sql>
+
+</mapper>

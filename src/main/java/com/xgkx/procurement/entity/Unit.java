@@ -1,0 +1,67 @@
+package com.xgkx.procurement.entity;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.xgkx.procurement.common.annotation.GenerateWrapperType;
+import com.xgkx.procurement.common.entity.BaseEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import java.util.Date;
+import lombok.Data;
+
+/**
+ * b_bath
+ * @author
+ */
+@ApiModel(value="Unit")
+@Data
+@TableName("b_unit")
+public class Unit extends BaseEntity implements Serializable {
+    /**
+     * 采购批次id
+     */
+    @ApiModelProperty(value="采购批次id")
+    @TableId(value = "bathId", type = IdType.AUTO)
+    private Integer bathId;
+
+    /**
+     * 批次名称
+     */
+    @ApiModelProperty(value="批次名称")
+    @TableField("path_name")
+    @GenerateWrapperType(value = GenerateWrapperType.Type.LIKE)
+    private String pathName;
+
+    /**
+     * 开始上报时间
+     */
+    @ApiModelProperty(value="开始上报时间")
+    @TableField("report_start_time")
+    private Date reportStartTime;
+
+    /**
+     * 上报结束时间
+     */
+    @ApiModelProperty(value="上报结束时间")
+    @TableField("report_stop_time")
+    private Date reportStopTime;
+
+    /**
+     * 批次状态：  0: 上报中  1: 采购中  2: 已结束
+     */
+    @ApiModelProperty(value="批次状态：  0: 上报中  1: 采购中  2: 已结束")
+    @TableField("bath_status")
+    private Integer bathStatus;
+
+    /**
+     * 组织机构id
+     */
+    @ApiModelProperty(value="组织机构id")
+    @TableField("org_id")
+    private Integer orgId;
+
+    private static final long serialVersionUID = 1L;
+}

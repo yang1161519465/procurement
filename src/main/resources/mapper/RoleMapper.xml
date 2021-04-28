@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgkx.procurement.mapper.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.xgkx.procurement.entity.Role">
+        <id column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="role_key" jdbcType="VARCHAR" property="roleKey"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    s_role.role_id,
+    s_role.role_key,
+    s_role.role_name,
+    s_role.create_by,
+    s_role.create_time,
+    s_role.update_by,
+    s_role.update_time
+  </sql>
+
+    <select id="getListByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from s_role
+        right join s_user_role
+        on s_user_role.role_id = s_role.role_id
+        where
+        s_user_role.user_id = #{userId}
+    </select>
+
+</mapper>

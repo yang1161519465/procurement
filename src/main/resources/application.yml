@@ -1,0 +1,54 @@
+server:
+  port: 3501  # 修改默认端口为3501
+  servlet:
+    context-path: /  # 修改访问项目根目录为/
+
+spring:
+  # 数据源相关配置
+  datasource:
+    url: jdbc:p6spy:mysql://localhost:3306/xgkx?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    username: xgkx
+    password: xgkx
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver  # com.mysql.cj.jdbc.Driver
+
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*Mapper.xml  # 设置mapper路径
+  typeAliasesPackage: com.xgkx.procurement.entity   # 设置实体类所在包
+  global-config:
+    db-config:
+      id-type: auto
+      field-strategy: not_empty
+      column-underline: true  # 驼峰下划线转换
+      logic-delete-value: 0  # 逻辑删除配置
+      logic-not-delete-value: 1
+      db-type: mysql
+    refresh: false
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+
+# 配置pageHelper分页插件的内容
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+
+# seagger信息配置
+swagger:
+  auth: 杨旭晨
+  url: http://api.yangxuchen.com
+  authEmail: yangxuchen@yangxuchen.com
+  title: 标题
+  description: 描述
+  version: 0.0.1
+
+# jwt相关配置
+jwt:
+  # 签名
+  signature: yangxuchenkey
+  # 过期时间  单位 s
+  exp: 604800  # 7 * 60 * 60 * 24
+

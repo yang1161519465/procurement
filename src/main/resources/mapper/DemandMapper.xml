@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgkx.procurement.mapper.DemandMapper">
+  <resultMap id="BaseResultMap" type="com.xgkx.procurement.entity.Demand">
+    <id column="demand_id" jdbcType="INTEGER" property="demandId" />
+    <result column="item_id" jdbcType="INTEGER" property="itemId" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="org_id" jdbcType="INTEGER" property="orgId" />
+    <result column="bath_id" jdbcType="INTEGER" property="bathId" />
+    <result column="is_meet" jdbcType="BOOLEAN" property="isMeet" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    demand_id, item_id, unit_id, `count`, org_id, bath_id, is_meet, create_by, create_time,
+    update_by, update_time
+  </sql>
+
+</mapper>
