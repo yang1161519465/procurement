@@ -1,12 +1,21 @@
 package com.xgkx.procurement.controller;
 
 import com.xgkx.procurement.common.controller.BaseController;
+import com.xgkx.procurement.common.entity.R;
+import com.xgkx.procurement.constant.Msg;
 import com.xgkx.procurement.entity.Item;
 import com.xgkx.procurement.service.serviceimpl.ItemServiceImpl;
+import com.xgkx.procurement.util.StringUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 物品  控制器
@@ -23,4 +32,38 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/item")
 public class ItemController extends BaseController<Item, Integer, ItemServiceImpl> {
+
+
+    @ApiOperation(value = "根据分类获取物品列表", notes = "根据分类获取物品列表", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "物品管理接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cateId", value = "分类id", required = true, dataType = "Integer",
+                    paramType = "query")
+    })
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    @GetMapping("/getListByCateId")
+    public R getListByCateId(@RequestParam Integer cateId) {
+        if (cateId == null) {
+            return R.error(Msg.PARAMETER_NULL_MSG);
+        }
+        List<Item> resultList = service.getListByCateId(cateId);
+        return R.ok().put("data", resultList);
+    }
+
+    @ApiOperation(value = "根据查询字符串查询物品列表", notes = "根据查询字符串查询物品列表", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "物品管理接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "queryString", value = "查询字符串", required = true, dataType = "String",
+                    paramType = "query")
+    })
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    @GetMapping("/getListByQueryString")
+    public R getListByQueryString(@RequestParam String queryString) {
+        if (StringUtils.isEmpty(queryString)) {
+            return R.error(Msg.PARAMETER_NULL_MSG);
+        }
+        List<Item> resultList = service.getListByQueryString(queryString);
+        return R.ok().put("data", resultList);
+    }
+
 }

@@ -17,7 +17,7 @@ import lombok.Data;
  */
 @ApiModel(value="Demand")
 @Data
-@TableName("demand")
+@TableName("b_demand")
 public class Demand extends BaseEntity implements Serializable {
     /**
      * 需求id
@@ -67,6 +67,24 @@ public class Demand extends BaseEntity implements Serializable {
     @ApiModelProperty(value="是否给予")
     @TableField("is_meet")
     private Boolean isMeet;
+
+    /**
+     * 批次名称
+     */
+    @TableField(exist = false)
+    private String pathName;
+
+    /**
+     * 单位名称
+     */
+    @TableField(exist = false)
+    private String itemName;
+
+    /**
+     * 物品名称
+     */
+    @TableField(exist = false)
+    private String unitName;
 
     private static final long serialVersionUID = 1L;
 }

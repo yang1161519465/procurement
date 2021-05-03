@@ -8,7 +8,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xgkx.procurement.common.entity.R;
+import com.xgkx.procurement.configuration.JwtPropreties;
+import com.xgkx.procurement.constant.Constant;
 import com.xgkx.procurement.constant.Msg;
+import com.xgkx.procurement.util.JwtUtils;
+import com.xgkx.procurement.util.ServletUtils;
 import com.xgkx.procurement.util.WrapperUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -19,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +43,8 @@ public class BaseController<TEntity,PK,TService extends IService> {
 
     @Autowired
     protected TService service;
+    @Autowired
+    private JwtPropreties jwtPropreties;
 
     protected R toAjax(Boolean result) {
         return result ? R.ok() : R.error();
@@ -140,5 +147,30 @@ public class BaseController<TEntity,PK,TService extends IService> {
         }
     }
 
+    protected HttpServletRequest getRequest() {
+        return ServletUtils.getRequest();
+    }
+
+    protected String getCurrentUserId() {
+        String token = getRequest().getHeader(Constant.TOKEN);
+        String userId = null;
+        try {
+            userId = JwtUtils.getUserId(token, jwtPropreties.getSignature());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userId;
+    }
+
+    protected String getCurrentUserLoginName() {
+        String token = getRequest().getHeader(Constant.TOKEN);
+        String userName = null;
+        try {
+            userName = JwtUtils.getUserName(token, jwtPropreties.getSignature());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userName;
+    }
 
 }

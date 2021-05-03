@@ -3,6 +3,8 @@ package com.xgkx.procurement.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xgkx.procurement.entity.Unit;
 
+import java.util.List;
+
 /**
  * 单位  业务逻辑层
  *
@@ -14,4 +16,15 @@ import com.xgkx.procurement.entity.Unit;
  * 作者名       修改时间       版本号           描述
  **/
 public interface UnitService extends IService<Unit> {
+
+    /**
+     * 根据物品id获取单位
+     *
+     * @author 杨旭晨
+     * @date 11:27 2021/5/1
+     * @param itemId: 物品id
+     * @return java.util.List<com.xgkx.procurement.entity.Unit>
+     **/
+    List<Unit> getListByItemId(Integer itemId);
+
 }

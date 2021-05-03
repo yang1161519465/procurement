@@ -19,4 +19,69 @@
     update_by, update_time
   </sql>
 
+  <select id="getMyOrgDemandList" resultMap="BaseResultMap">
+    select
+      bd.demand_id,
+      bd.item_id,
+      bd.unit_id,
+      bd.`count`,
+      bd.org_id,
+      bd.bath_id,
+      bd.is_meet,
+      bd.create_by,
+      bd.create_time,
+      bd.update_by,
+      bd.update_time,
+      bi.item_name,
+      bu.unit_name,
+      bb.path_name
+    from b_demand bd
+    LEFT JOIN b_item bi ON bi.item_id = bd.item_id
+	LEFT JOIN b_unit bu ON bu.unit_id = bd.unit_id
+	LEFT JOIN b_bath bb ON bb.bath_id = bd.bath_id
+    where bd.org_id = #{orgId}
+  </select>
+
+  <select id="getList" resultMap="BaseResultMap">
+    select
+      bd.demand_id,
+      bd.item_id,
+      bd.unit_id,
+      bd.`count`,
+      bd.org_id,
+      bd.bath_id,
+      bd.is_meet,
+      bd.create_by,
+      bd.create_time,
+      bd.update_by,
+      bd.update_time,
+      bi.item_name,
+      bu.unit_name,
+      bb.path_name
+    from b_demand bd
+    LEFT JOIN b_item bi ON bi.item_id = bd.item_id
+	LEFT JOIN b_unit bu ON bu.unit_id = bd.unit_id
+	LEFT JOIN b_bath bb ON bb.bath_id = bd.bath_id
+    <where>
+      <if test="demandId != null and demandId != ''">
+        and bd.demand_id = #{demandId}
+      </if>
+      <if test="itemId != null and itemId != ''">
+        and bd.item_id = #{itemId}
+      </if>
+      <if test="unitId != null and unitId != ''">
+        and bd.unit_id = #{unitId}
+      </if>
+      <if test="orgId != null and orgId != ''">
+        and bd.org_id = #{orgId}
+      </if>
+      <if test="bathId != null and bathId != ''">
+        and bd.bath_id = #{bathId}
+      </if>
+      <if test="isMeet != null and isMeet != ''">
+        and bd.is_meet = #{isMeet}
+      </if>
+    </where>
+  </select>
+
 </mapper>

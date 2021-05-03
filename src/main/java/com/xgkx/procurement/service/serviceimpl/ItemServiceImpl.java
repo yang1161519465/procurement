@@ -1,5 +1,6 @@
 package com.xgkx.procurement.service.serviceimpl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xgkx.procurement.entity.Item;
 import com.xgkx.procurement.mapper.ItemMapper;
@@ -7,6 +8,8 @@ import com.xgkx.procurement.service.ItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author 杨旭晨
@@ -20,4 +23,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @Slf4j
 public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements ItemService {
+    @Override
+    public List<Item> getListByCateId(Integer cateId) {
+        QueryWrapper<Item> wrapper = new QueryWrapper<>();
+        wrapper.eq("cate_id", cateId);
+        return baseMapper.selectList(wrapper);
+    }
+
+    @Override
+    public List<Item> getListByQueryString(String queryString) {
+        QueryWrapper<Item> wrapper = new QueryWrapper<>();
+        wrapper.like("item_name", queryString);
+        return baseMapper.selectList(wrapper);
+    }
 }

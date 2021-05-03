@@ -21,47 +21,26 @@ import lombok.Data;
 @TableName("b_unit")
 public class Unit extends BaseEntity implements Serializable {
     /**
-     * 采购批次id
+     * 单位id
      */
-    @ApiModelProperty(value="采购批次id")
-    @TableId(value = "bathId", type = IdType.AUTO)
-    private Integer bathId;
+    @ApiModelProperty(value="单位id")
+    @TableId(value = "unit_id", type = IdType.AUTO)
+    private Integer unitId;
 
     /**
-     * 批次名称
+     * 单位名称
      */
-    @ApiModelProperty(value="批次名称")
-    @TableField("path_name")
+    @ApiModelProperty(value="单位名称")
+    @TableField("unit_name")
     @GenerateWrapperType(value = GenerateWrapperType.Type.LIKE)
-    private String pathName;
+    private String unitName;
 
     /**
-     * 开始上报时间
+     * 物品id
      */
-    @ApiModelProperty(value="开始上报时间")
-    @TableField("report_start_time")
-    private Date reportStartTime;
-
-    /**
-     * 上报结束时间
-     */
-    @ApiModelProperty(value="上报结束时间")
-    @TableField("report_stop_time")
-    private Date reportStopTime;
-
-    /**
-     * 批次状态：  0: 上报中  1: 采购中  2: 已结束
-     */
-    @ApiModelProperty(value="批次状态：  0: 上报中  1: 采购中  2: 已结束")
-    @TableField("bath_status")
-    private Integer bathStatus;
-
-    /**
-     * 组织机构id
-     */
-    @ApiModelProperty(value="组织机构id")
-    @TableField("org_id")
-    private Integer orgId;
+    @ApiModelProperty(value="物品id")
+    @TableField("item_id")
+    private Integer itemId;
 
     private static final long serialVersionUID = 1L;
 }

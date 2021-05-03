@@ -33,6 +33,7 @@ public class UserController extends BaseController<User, String, UserSerivce> {
     @ApiImplicitParam(name = "user", value = "用户信息", required = true, dataType = "User",
             paramType = "body")
     @PostMapping("add")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN')")
     public R add(@RequestBody User user) {
         if (user == null) {
             return R.error(Msg.PARAMETER_NULL_MSG);
@@ -40,10 +41,13 @@ public class UserController extends BaseController<User, String, UserSerivce> {
         return R.ok().put("data", service.addUser(user));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'user')")
-    @GetMapping("/admin")
-    public R admin() {
-        return R.ok();
+    @ApiOperation(value = "获取当前登陆用户信息", notes = "获取当前登陆用户信息", consumes = MediaType.APPLICATION_JSON_VALUE, produces
+            = MediaType.APPLICATION_JSON_VALUE, tags = "用户管理接口")
+    @PostMapping("info")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    public R info() {
+        String currentUserId = getCurrentUserId();
+        return R.ok().put("data", service.getById(currentUserId));
     }
 
 }

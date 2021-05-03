@@ -1,12 +1,27 @@
 package com.xgkx.procurement.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xgkx.procurement.common.controller.BaseController;
+import com.xgkx.procurement.common.entity.R;
+import com.xgkx.procurement.constant.Msg;
+import com.xgkx.procurement.entity.Bath;
 import com.xgkx.procurement.entity.Demand;
+import com.xgkx.procurement.entity.Item;
 import com.xgkx.procurement.service.serviceimpl.DemandServiceImpl;
+import com.xgkx.procurement.util.StringUtils;
+import com.xgkx.procurement.util.WrapperUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 需求  控制器
@@ -23,4 +38,84 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/demand")
 public class DemandController extends BaseController<Demand, Integer, DemandServiceImpl> {
+
+    @ApiOperation(value = "提交一个需求", notes = "提交一个需求", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "需求管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    @PostMapping("/submitDemand")
+    public R submitDemand(@RequestBody Demand demand) {
+        if (demand == null) {
+            return R.error(Msg.PARAMETER_NULL_MSG);
+        }
+        demand.setCreateBy(getCurrentUserLoginName());
+        Demand result = service.submitDemand(demand);
+        return R.ok().put("data", result);
+    }
+
+    @ApiOperation(value = "获取我的组织及以下的需求列表", notes = "获取我的组织及以下的需求列表", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "需求管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    @GetMapping("/getMyOrgDemandList")
+    public R getMyOrgDemandList(@RequestParam(required = false) Integer pageSize,
+                                @RequestParam(required = false) Integer pageNum) {
+        if (pageSize == null || pageNum == null) {
+            // 获取全部
+            return R.ok().put("data", service.getMyOrgDemandList(getCurrentUserId()));
+        } else {
+            // 分页获取
+            PageHelper.startPage(pageNum, pageSize);
+            List<Demand> demandList = service.getMyOrgDemandList(getCurrentUserId());
+            PageInfo<Demand> result = new PageInfo<>(demandList);
+            return R.ok().put("data", result);
+        }
+    }
+
+    @ApiOperation(value = "获取需求列表", notes = "获取需求列表", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "需求管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    @PostMapping("/getList")
+    public R getList(@RequestParam(required = false) Integer pageSize,
+                     @RequestParam(required = false) Integer pageNum,
+                     @RequestBody(required = false) Demand demand) {
+        if (demand == null) {
+            // 查询参数为空，查询全部
+            if (pageSize != null && pageNum != null && pageNum > 0 && pageSize > 0) {
+                // 分页参数正确，分页查询
+                PageHelper.startPage(pageNum,pageSize);
+                List list = service.getList(new Demand());
+                PageInfo<Demand> result=new PageInfo<Demand>(list);
+                return R.ok().put("data", result);
+            } else {
+                // 分页参数不正确，返回全部列表
+                List list = service.getList(new Demand());
+                return R.ok().put("data", list);
+            }
+        } else {
+            // 有查询参数，按照查询参数查找
+            if (pageSize != null && pageNum != null && pageNum > 0 && pageSize > 0) {
+                // 分页参数正确，分页查询
+                PageHelper.startPage(pageNum, pageSize);
+                List list = service.getList(demand);
+                PageInfo<Demand> result = new PageInfo<>(list);
+                return R.ok().put("data", result);
+            } else {
+                // 分页参数不正确，返回按照查询参数查找的列表
+                List list = service.getList(demand);
+                return R.ok().put("data", list);
+            }
+        }
+    }
+
+    @ApiOperation(value = "根据批次id获取该批次的统计", notes = "根据批次id获取该批次的统计", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "需求管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    @GetMapping("/statisticsByBathId")
+    public R statisticsByBathId(@RequestParam Integer bathId) {
+        if (bathId == null) {
+            return R.error(Msg.PARAMETER_NULL_MSG);
+        }
+        Bath result = service.statisticsByBathId(bathId);
+        return R.ok().put("data", result);
+    }
+
 }

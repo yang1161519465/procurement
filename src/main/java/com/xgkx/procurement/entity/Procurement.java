@@ -19,7 +19,7 @@ import lombok.Data;
  */
 @ApiModel(value="Procurement")
 @Data
-@TableName("procurement")
+@TableName("b_procurement")
 public class Procurement extends BaseEntity implements Serializable {
     /**
      * 采购id

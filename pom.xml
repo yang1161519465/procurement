@@ -16,6 +16,24 @@
     <properties>
         <java.version>1.8</java.version>
     </properties>
+
+    <!-- maven源-->
+    <repositories>
+        <!-- 阿里云maven源-->
+        <repository>
+            <id>aliyun</id>
+            <name>aliyun-public</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

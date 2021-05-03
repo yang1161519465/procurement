@@ -17,7 +17,7 @@ import lombok.Data;
  */
 @ApiModel(value="Item")
 @Data
-@TableName("item")
+@TableName("b_item")
 public class Item extends BaseEntity implements Serializable {
     /**
      * 物品id
@@ -39,6 +39,13 @@ public class Item extends BaseEntity implements Serializable {
     @ApiModelProperty(value="分类id")
     @TableField("cate_id")
     private Integer cateId;
+
+    /**
+     * 物品描述
+     */
+    @ApiModelProperty(value = "物品描述")
+    @TableField("item_description")
+    private String itemDescription;
 
     /**
      * 排序序号

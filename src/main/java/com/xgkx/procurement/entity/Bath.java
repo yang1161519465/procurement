@@ -10,7 +10,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -19,7 +22,7 @@ import lombok.Data;
  */
 @ApiModel(value="Bath")
 @Data
-@TableName("category")
+@TableName("b_bath")
 public class Bath extends BaseEntity implements Serializable {
     /**
      * 采购批次id
@@ -63,6 +66,12 @@ public class Bath extends BaseEntity implements Serializable {
     @ApiModelProperty(value="组织机构id")
     @TableField("org_id")
     private Integer orgId;
+
+    /**
+     * 统计的所有需求列表
+     */
+    @TableField(exist = false)
+    private Collection<Demand> demandList;
 
     private static final long serialVersionUID = 1L;
 }
