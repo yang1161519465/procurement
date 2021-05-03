@@ -1,5 +1,6 @@
 package com.xgkx.procurement.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -33,6 +34,7 @@ public class Procurement extends BaseEntity implements Serializable {
      */
     @ApiModelProperty(value="采购时间")
     @TableField("pro_time")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime proTime;
 
     /**

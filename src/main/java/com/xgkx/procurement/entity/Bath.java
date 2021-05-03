@@ -1,5 +1,6 @@
 package com.xgkx.procurement.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -44,6 +45,7 @@ public class Bath extends BaseEntity implements Serializable {
      */
     @ApiModelProperty(value="开始上报时间")
     @TableField("report_start_time")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime reportStartTime;
 
     /**
@@ -51,6 +53,7 @@ public class Bath extends BaseEntity implements Serializable {
      */
     @ApiModelProperty(value="上报结束时间")
     @TableField("report_stop_time")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime reportStopTime;
 
     /**
