@@ -1,21 +1,17 @@
 package com.xgkx.procurement.filter;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.configuration.JwtPropreties;
 import com.xgkx.procurement.constant.Constant;
 import com.xgkx.procurement.constant.Msg;
 import com.xgkx.procurement.entity.MyUserDetrails;
-import com.xgkx.procurement.service.UserSerivce;
 import com.xgkx.procurement.service.serviceimpl.UserSerivceImpl;
 import com.xgkx.procurement.util.JwtUtils;
-import org.apache.http.entity.ContentType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -38,6 +34,7 @@ import java.util.List;
  * @history <author>     <time>      <version>       <desc>
  * 作者名       修改时间       版本号           描述
  **/
+@Slf4j
 public class MyAuthenticationFilter extends BasicAuthenticationFilter {
 
     private JwtPropreties jwtPropreties;
@@ -58,13 +55,14 @@ public class MyAuthenticationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         response.setContentType("application/json;charset=UTF-8");
         String token = request.getHeader(Constant.TOKEN);
-        StringBuffer requestURL = request.getRequestURL();
         String requestURI = request.getRequestURI();
+        log.info("访问接口" + requestURI);
         if (isInWiteList(requestURI)) {
             // 白名单，放过
             chain.doFilter(request, response);
             return;
         }
+
         if (token == null) {
             // token为空
             returnMsg(response, R.error(HttpStatus.UNAUTHORIZED.value(), Msg.UN_AUTHENTICATE));

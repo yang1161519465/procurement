@@ -13,8 +13,6 @@ import com.xgkx.procurement.util.WrapperUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -88,6 +86,14 @@ public class UserSerivceImpl extends ServiceImpl<UserMapper, User> implements Us
     public User addUser(User user) {
         user.setPasswordMd5(MD5Utils.getMD5Str(user.getPassword()));
         this.save(user);
+        return user;
+    }
+
+    @Override
+    public User info(String currentUserId) {
+        User user = this.getById(currentUserId);
+        List<Role> roleList = roleService.getListByUserId(user.getUserId());
+        user.setRoles(roleList);
         return user;
     }
 

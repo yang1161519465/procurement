@@ -48,7 +48,7 @@ public class UserController extends BaseController<User, String, UserSerivce> {
     @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
     public R info() {
         String currentUserId = getCurrentUserId();
-        return R.ok().put("data", service.getById(currentUserId));
+        return R.ok().put("data", service.info(currentUserId));
     }
 
 }

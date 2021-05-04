@@ -1,10 +1,7 @@
 package com.xgkx.procurement.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xgkx.procurement.entity.Role;
 import com.xgkx.procurement.entity.User;
-
-import java.util.List;
 
 /**
  * 用户 业务逻辑层
@@ -38,4 +35,13 @@ public interface UserSerivce extends IService<User> {
      **/
     User addUser(User user);
 
+    /**
+     * 获取当前用户信息
+     *
+     * @author 杨旭晨
+     * @date 16:49 2021/5/4
+     * @param currentUserId: 用户id
+     * @return com.xgkx.procurement.entity.User
+     **/
+    User info(String currentUserId);
 }

@@ -8,10 +8,10 @@ import com.xgkx.procurement.common.annotation.GenerateWrapperType;
 import com.xgkx.procurement.common.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.List;
-
-import lombok.Data;
 
 /**
  * 用户表

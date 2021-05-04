@@ -71,7 +71,7 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
             throws IOException, ServletException {
         //设置安全上下文。在当前的线程中，任何一处都可以通过SecurityContextHolder来获取当前用户认证成功的Authentication对象
         SecurityContextHolder.getContext().setAuthentication(authResult);
-        log.debug("验证成功");
+        log.info("验证成功");
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
         // 获取用户信息
@@ -96,7 +96,7 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
      **/
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        log.debug("开始验证");
+        log.info("开始验证");
         ObjectMapper mapper = new ObjectMapper();
         UsernamePasswordAuthenticationToken authRequest = null;
         // 获取用户名和密码
