@@ -38,6 +38,7 @@ public class GlobalExceptionHandler {
     public void HttpRequestMethodNotSupportedExceptionHandler(HttpServletRequest request,
                                                               HttpServletResponse response,
                                                               HttpRequestMethodNotSupportedException e) {
+        e.printStackTrace();
         ServletUtils.renderString(response, R.error(HttpStatus.METHOD_NOT_ALLOWED.value(),
                 "本接口：" + ServletUtils.getRequest().getRequestURI() +
                 "；不支持" + e.getMethod()).toJSONString());
@@ -47,6 +48,7 @@ public class GlobalExceptionHandler {
     public void  SQLExceptionHandler(HttpServletRequest request,
                                      HttpServletResponse response,
                                      SQLException e) {
+        e.printStackTrace();
         ServletUtils.renderString(response, R.error("sql语句异常" + e.getMessage()).toJSONString());
     }
 
@@ -62,6 +64,7 @@ public class GlobalExceptionHandler {
     public void BussinessExceptionHandler(HttpServletRequest request,
                                        HttpServletResponse response,
                                           BussinessException e) {
+        e.printStackTrace();
         ServletUtils.renderString(response, R.error(e.getMsg()).toJSONString());
     }
 
@@ -74,6 +77,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value =Exception.class)
     public void exceptionHandler(HttpServletRequest request,
                                  HttpServletResponse response, Exception e){
+        e.printStackTrace();
         ServletUtils.renderString(response, R.error(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "未知错误" + e.getMessage()).toJSONString());
     }

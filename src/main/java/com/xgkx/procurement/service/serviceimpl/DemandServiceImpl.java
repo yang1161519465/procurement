@@ -1,6 +1,5 @@
 package com.xgkx.procurement.service.serviceimpl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xgkx.procurement.entity.Bath;
 import com.xgkx.procurement.entity.Demand;
@@ -45,8 +44,8 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
 
     @Override
     public List<Demand> getMyOrgDemandList(String currentUserId) {
-        User user = userSerivce.getById(currentUserId);
-        return baseMapper.getMyOrgDemandList(user.getOrgId());
+//        User user = userSerivce.getById(currentUserId);
+        return baseMapper.getMyOrgDemandList(currentUserId);
     }
 
     @Override

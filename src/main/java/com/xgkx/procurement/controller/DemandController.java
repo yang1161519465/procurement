@@ -1,6 +1,5 @@
 package com.xgkx.procurement.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xgkx.procurement.common.controller.BaseController;
@@ -8,13 +7,8 @@ import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.constant.Msg;
 import com.xgkx.procurement.entity.Bath;
 import com.xgkx.procurement.entity.Demand;
-import com.xgkx.procurement.entity.Item;
 import com.xgkx.procurement.service.serviceimpl.DemandServiceImpl;
-import com.xgkx.procurement.util.StringUtils;
-import com.xgkx.procurement.util.WrapperUtil;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

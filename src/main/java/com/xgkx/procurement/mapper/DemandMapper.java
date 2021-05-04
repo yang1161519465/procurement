@@ -12,10 +12,10 @@ public interface DemandMapper extends BaseMapper<Demand> {
      *
      * @author 杨旭晨
      * @date 10:17 2021/5/3
-     * @param orgId: 组织id
+     * @param userId: 用户id
      * @return java.util.List<com.xgkx.procurement.entity.Demand>
      **/
-    List<Demand> getMyOrgDemandList(Integer orgId);
+    List<Demand> getMyOrgDemandList(String userId);
 
     /**
      * 根据条件查询，拼接名称

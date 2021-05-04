@@ -39,7 +39,9 @@
     LEFT JOIN b_item bi ON bi.item_id = bd.item_id
 	LEFT JOIN b_unit bu ON bu.unit_id = bd.unit_id
 	LEFT JOIN b_bath bb ON bb.bath_id = bd.bath_id
-    where bd.org_id = #{orgId}
+	LEFT JOIN s_user su ON su.org_id = bd.org_id
+    where su.user_id = #{userId}
+    order by bd.create_time desc
   </select>
 
   <select id="getList" resultMap="BaseResultMap">
@@ -82,6 +84,7 @@
         and bd.is_meet = #{isMeet}
       </if>
     </where>
+    order by bd.create_time desc
   </select>
 
 </mapper>
