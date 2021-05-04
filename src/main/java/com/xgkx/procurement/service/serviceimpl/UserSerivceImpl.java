@@ -86,12 +86,18 @@ public class UserSerivceImpl extends ServiceImpl<UserMapper, User> implements Us
     public User addUser(User user) {
         user.setPasswordMd5(MD5Utils.getMD5Str(user.getPassword()));
         this.save(user);
+        if (user.getRoleIds() == null || user.getRoleIds().isEmpty()) {
+            user.setRoleIds(new ArrayList<>());
+        }
+        roleService.setUserRole(user);
         return user;
     }
 
     @Override
     public User info(String currentUserId) {
         User user = this.getById(currentUserId);
+        user.setPasswordMd5("");
+        user.setPassword("");
         List<Role> roleList = roleService.getListByUserId(user.getUserId());
         user.setRoles(roleList);
         return user;
