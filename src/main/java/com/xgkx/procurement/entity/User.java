@@ -95,5 +95,12 @@ public class User extends BaseEntity implements Serializable {
     @TableField(exist = false)
     private String password;
 
+    /**
+     * 权限id列表，添加时使用
+     */
+    @ApiModelProperty(value = "权限id列表，添加用户时使用")
+    @TableField(exist = false)
+    private List<Integer> roleIds;
+
     private static final long serialVersionUID = 1L;
 }

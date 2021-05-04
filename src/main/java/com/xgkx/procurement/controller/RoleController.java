@@ -25,5 +25,4 @@ import org.springframework.web.bind.annotation.RestController;
 public class RoleController extends BaseController<Role, Integer, RoleServiceImpl> {
 
 
-
 }

@@ -2,6 +2,8 @@ package com.xgkx.procurement.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xgkx.procurement.entity.Role;
+import com.xgkx.procurement.entity.User;
+import com.xgkx.procurement.entity.UserRole;
 
 import java.util.List;
 
@@ -26,5 +28,15 @@ public interface RoleService extends IService<Role> {
      * @return java.util.List<com.xgkx.procurement.entity.Role>
      **/
     List<Role> getListByUserId(String userId);
+
+    /**
+     * 设置用户权限
+     *
+     * @author 杨旭晨
+     * @date 16:54 2021/5/4
+     * @param user:
+     * @return java.util.List<com.xgkx.procurement.entity.Role>
+     **/
+    List<UserRole> setUserRole(User user);
 
 }
