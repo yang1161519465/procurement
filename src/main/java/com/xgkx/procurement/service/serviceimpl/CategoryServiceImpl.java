@@ -2,6 +2,7 @@ package com.xgkx.procurement.service.serviceimpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.entity.Category;
 import com.xgkx.procurement.mapper.CategoryMapper;
 import com.xgkx.procurement.service.CategoryService;
@@ -63,5 +64,20 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
             resultMap.put(category.getCateId(), true);
         }
         return resultMap;
+    }
+
+    @Override
+    public R addCategory(Category category) {
+        return null;
+    }
+
+    @Override
+    public R updateCategory(Category category) {
+        return null;
+    }
+
+    @Override
+    public R deleteCategory(Integer categoryId, boolean isDeleteChildren, boolean isDeleteItem) {
+        return null;
     }
 }
