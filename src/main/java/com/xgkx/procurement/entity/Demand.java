@@ -7,9 +7,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.xgkx.procurement.common.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
-import java.util.Date;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * b_demand  需求表
@@ -85,6 +85,12 @@ public class Demand extends BaseEntity implements Serializable {
      */
     @TableField(exist = false)
     private String unitName;
+
+    /**
+     * 组织结构名称
+     */
+    @TableField(exist = false)
+    private String orgName;
 
     private static final long serialVersionUID = 1L;
 }

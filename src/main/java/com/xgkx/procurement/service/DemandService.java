@@ -59,4 +59,14 @@ public interface DemandService extends IService<Demand> {
      * @return com.xgkx.procurement.entity.Bath
      **/
     Bath statisticsByBathId(Integer bathId);
+
+    /**
+     * 根据批次id获取列表
+     *
+     * @author 杨旭晨
+     * @date 10:24 2021/5/9
+     * @param bathId: 批次id
+     * @return java.util.List<com.xgkx.procurement.entity.Demand>
+     **/
+    List<Demand> getListByBathId(Integer bathId);
 }

@@ -1,5 +1,7 @@
 package com.xgkx.procurement.util;
 
+import java.util.List;
+
 /**
  * String类的工具类
  *
@@ -35,6 +37,29 @@ public class StringUtils {
      **/
     public static boolean isNotEmpty(String s) {
         return !isEmpty(s);
+    }
+
+    /**
+     * 将list转换为字符串，用拼接符号拼接
+     *
+     * @author 杨旭晨
+     * @date 10:05 2021/5/9
+     * @param list: 要转换的字符串列表
+     * @param symbol: 拼接符号
+     * @return java.lang.String
+     **/
+    public static String listToString(List<String> list, String symbol) {
+        StringBuilder sb = new StringBuilder();
+        if (list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                if (i < list.size() - 1) {
+                    sb.append(list.get(i) + symbol);
+                } else {
+                    sb.append(list.get(i));
+                }
+            }
+        }
+        return sb.toString();
     }
 
 }

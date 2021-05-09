@@ -1,21 +1,22 @@
 package com.xgkx.procurement.service.serviceimpl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xgkx.procurement.entity.Bath;
 import com.xgkx.procurement.entity.Demand;
-import com.xgkx.procurement.entity.User;
+import com.xgkx.procurement.entity.Org;
 import com.xgkx.procurement.mapper.DemandMapper;
 import com.xgkx.procurement.service.BathService;
 import com.xgkx.procurement.service.DemandService;
+import com.xgkx.procurement.service.OrgService;
 import com.xgkx.procurement.service.UserSerivce;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author 杨旭晨
@@ -34,6 +35,8 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
     private UserSerivce userSerivce;
     @Autowired
     private BathService bathService;
+    @Autowired
+    private OrgService orgService;
 
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -50,7 +53,19 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
 
     @Override
     public List getList(Demand demand) {
-        return baseMapper.getList(demand);
+        List<Demand> demandList = baseMapper.getList(demand);
+        Set<Integer> orgIds = demandList.stream().map(Demand::getOrgId).collect(Collectors.toSet());
+        List<Org> orgList = orgService.getListByOrgIds(new ArrayList<>(orgIds));
+        Map<Integer, Org> orgMap = orgList.stream().collect(Collectors.toMap(Org::getOrgId, item -> item));
+        for (Demand demand1 : demandList) {
+            if (orgMap.containsKey(demand1.getOrgId())) {
+                Org org = orgMap.get(demand1.getOrgId());
+                demand1.setOrgName(org.getOrgName());
+            } else {
+                demand1.setOrgName("开发用户");
+            }
+        }
+        return demandList;
     }
 
     @Override
@@ -82,5 +97,13 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         }
         bath.setDemandList(result.values());
         return bath;
+    }
+
+    @Override
+    public List<Demand> getListByBathId(Integer bathId) {
+        QueryWrapper<Demand> wrapper = new QueryWrapper<>();
+        wrapper.eq("bath_id", bathId);
+        List<Demand> demandList = baseMapper.selectList(wrapper);
+        return demandList;
     }
 }
