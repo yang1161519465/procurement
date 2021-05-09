@@ -1,6 +1,8 @@
 package com.xgkx.procurement.util;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * String类的工具类
@@ -62,4 +64,47 @@ public class StringUtils {
         return sb.toString();
     }
 
+    /**
+     * 判断字符串是否是邮箱
+     *
+     * @author 杨旭晨
+     * @date 18:35 2021/5/9
+     * @param s: 要判断的字符换
+     * @return boolean  true: 是一个邮箱,  false: 不是一个邮箱
+     **/
+    public static boolean isEmail(String s) {
+        if (isEmpty(s)) {
+            return false;
+        }
+        String regEx1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+        Pattern p = Pattern.compile(regEx1);
+        Matcher m = p.matcher(s);
+        if(m.matches()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 判断字符串是否是电话号码格式
+     *
+     * @author 杨旭晨
+     * @date 18:37 2021/5/9
+     * @param s: 要判断的字符串
+     * @return boolean  true: 是电话号码,  false: 不是电话号码
+     **/
+    public static boolean isPhoneNum(String s) {
+        if (isEmpty(s)) {
+            return false;
+        }
+        String regEx1 = "^1[3|4|5|7|8][0-9]\\\\d{4,8}$";
+        Pattern p = Pattern.compile(regEx1);
+        Matcher m = p.matcher(s);
+        if(m.matches()){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

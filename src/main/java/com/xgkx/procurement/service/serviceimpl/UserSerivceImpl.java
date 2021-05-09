@@ -1,6 +1,7 @@
 package com.xgkx.procurement.service.serviceimpl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.entity.MyUserDetrails;
 import com.xgkx.procurement.entity.Role;
 import com.xgkx.procurement.entity.User;
@@ -101,6 +102,26 @@ public class UserSerivceImpl extends ServiceImpl<UserMapper, User> implements Us
         List<Role> roleList = roleService.getListByUserId(user.getUserId());
         user.setRoles(roleList);
         return user;
+    }
+
+    @Override
+    public R resetUserPassword(String userId, String newPassword) {
+        return null;
+    }
+
+    @Override
+    public R changePassword(String oldPassword, String newPassword) {
+        return null;
+    }
+
+    @Override
+    public R changeUserInfo(User user, String userId) {
+        return null;
+    }
+
+    @Override
+    public R updaetUser(User user) {
+        return null;
     }
 
 }
