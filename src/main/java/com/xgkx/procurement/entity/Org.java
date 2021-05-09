@@ -8,8 +8,9 @@ import com.xgkx.procurement.common.annotation.GenerateWrapperType;
 import com.xgkx.procurement.common.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * s_org
@@ -40,6 +41,14 @@ public class Org extends BaseEntity implements Serializable {
     @ApiModelProperty(value="组织机构唯一编码")
     @TableField("org_key")
     private String orgKey;
+
+    /**
+     * 删除标记  0：未删除  1：已删除
+     */
+    @ApiModelProperty(value = "删除标记  0：未删除  1：已删除")
+    @TableField("delete_tag")
+    @GenerateWrapperType(value = GenerateWrapperType.Type.DEFAULT, defaultValue = false)
+    private Boolean deleteTag;
 
     private static final long serialVersionUID = 1L;
 }

@@ -2,6 +2,7 @@ package com.xgkx.procurement.service.serviceimpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.entity.Org;
 import com.xgkx.procurement.mapper.OrgMapper;
 import com.xgkx.procurement.service.OrgService;
@@ -28,5 +29,20 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, Org> implements OrgSe
         QueryWrapper<Org> wrapper = new QueryWrapper<>();
         wrapper.in("org_id", orgIds);
         return baseMapper.selectList(wrapper);
+    }
+
+    @Override
+    public R addOrg(Org org) {
+        return null;
+    }
+
+    @Override
+    public R updateOrg(Org org) {
+        return null;
+    }
+
+    @Override
+    public R deleteOrg(Integer orgId) {
+        return null;
     }
 }

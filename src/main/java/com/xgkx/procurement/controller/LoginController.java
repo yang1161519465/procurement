@@ -1,15 +1,16 @@
 package com.xgkx.procurement.controller;
 
 import com.xgkx.procurement.common.entity.R;
-import com.xgkx.procurement.constant.Msg;
-import com.xgkx.procurement.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 登陆  控制器
@@ -35,11 +36,12 @@ public class LoginController {
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String",
                     paramType = "query")
     })
-
     @PostMapping("")
     public R login(@RequestParam String userName, @RequestParam String password) {
         // 有过滤器拦截，不会进入到这个函数，这个控制器存在的意义是为了让swagger显示登陆接口
         return R.ok();
     }
+
+
 
 }
