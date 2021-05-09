@@ -61,7 +61,8 @@ public interface ItemService extends IService<Item> {
     /**
      * 删除物品
      * 1.判断当前正在上报的批次中是否有需求需要此物品，如果有，不允许删除
-     * 2.逻辑删除
+     * 2.如果没有在任何地方引用到，真删除
+     * 3.逻辑删除
      *
      * @author 杨旭晨
      * @date 15:16 2021/5/9
