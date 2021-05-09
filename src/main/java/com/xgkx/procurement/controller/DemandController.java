@@ -8,6 +8,7 @@ import com.xgkx.procurement.constant.Msg;
 import com.xgkx.procurement.entity.Bath;
 import com.xgkx.procurement.entity.Demand;
 import com.xgkx.procurement.service.serviceimpl.DemandServiceImpl;
+import com.xgkx.procurement.util.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,6 +42,10 @@ public class DemandController extends BaseController<Demand, Integer, DemandServ
     public R submitDemand(@RequestBody Demand demand) {
         if (demand == null) {
             return R.error(Msg.PARAMETER_NULL_MSG);
+        }
+        List<String> checkResult = checkDemand(demand);
+        if (!checkResult.isEmpty()) {
+            return R.error(StringUtils.listToString(checkResult, "\n"));
         }
         demand.setCreateBy(getCurrentUserLoginName());
         Demand result = service.submitDemand(demand);
@@ -110,6 +116,62 @@ public class DemandController extends BaseController<Demand, Integer, DemandServ
         }
         Bath result = service.statisticsByBathId(bathId);
         return R.ok().put("data", result);
+    }
+
+    @ApiOperation(value = "修改需求", notes = "修改需求", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "需求管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    @PostMapping("/updateDemand")
+    public R updateDemand(@RequestBody Demand demand) {
+        if (demand == null) {
+            return R.error(Msg.PARAMETER_NULL_MSG);
+        }
+        List<String> result = checkDemand(demand);
+        if (!result.isEmpty()) {
+            return R.error(StringUtils.listToString(result, "\n"));
+        }
+        if (demand.getDemandId() == null) {
+            return R.error(Msg.PARAMETER_NULL_MSG);
+        }
+        return service.updateDemand(demand);
+    }
+
+    @ApiOperation(value = "删除需求", notes = "删除需求", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "需求管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    @DeleteMapping("/deleteDemand")
+    public R deleteDemand(@RequestParam Integer demandId) {
+        if (demandId == null) {
+            return R.error(Msg.PARAMETER_NULL_MSG);
+        }
+        return service.deleteDemand(demandId);
+    }
+
+    private List<String> checkDemand(Demand demand) {
+        List<String> result = new ArrayList<>();
+        if (demand == null) {
+            result.add("参数不能为空");
+            return result;
+        }
+        if (demand.getCount() == null) {
+            result.add("数量不能为空");
+        }
+        if (demand.getCount() <= 0) {
+            result.add("数量必须为正数");
+        }
+        if (demand.getBathId() == null) {
+            result.add("批次不能为空");
+        }
+        if (demand.getItemId() == null) {
+            result.add("物品不能为空");
+        }
+        if (demand.getOrgId() == null) {
+            result.add("组织机构不能为空");
+        }
+        if (demand.getUnitId() == null) {
+            result.add("单位不能为空");
+        }
+        return result;
     }
 
 }

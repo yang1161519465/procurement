@@ -1,6 +1,7 @@
 package com.xgkx.procurement.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.entity.Bath;
 import com.xgkx.procurement.entity.Demand;
 
@@ -69,4 +70,27 @@ public interface DemandService extends IService<Demand> {
      * @return java.util.List<com.xgkx.procurement.entity.Demand>
      **/
     List<Demand> getListByBathId(Integer bathId);
+
+    /**
+     * 修改需求
+     * 1.当前需求所在批次已经停止上报后，不允许修改
+     *
+     * @author 杨旭晨
+     * @date 14:59 2021/5/9
+     * @param demand: 要修改的需求
+     * @return com.xgkx.procurement.common.entity.R
+     **/
+    R updateDemand(Demand demand);
+
+    /**
+     * 删除需求
+     * 1.当前需求所在批次已经停止上报后，不允许删除
+     * 2.需求已经给予之后，不允许删除
+     *
+     * @author 杨旭晨
+     * @date 15:02 2021/5/9
+     * @param demandId: 要删除的需求id
+     * @return com.xgkx.procurement.common.entity.R
+     **/
+    R deleteDemand(Integer demandId);
 }

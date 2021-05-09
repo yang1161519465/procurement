@@ -2,6 +2,7 @@ package com.xgkx.procurement.service.serviceimpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.entity.Bath;
 import com.xgkx.procurement.entity.Demand;
 import com.xgkx.procurement.entity.Org;
@@ -105,5 +106,15 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         wrapper.eq("bath_id", bathId);
         List<Demand> demandList = baseMapper.selectList(wrapper);
         return demandList;
+    }
+
+    @Override
+    public R updateDemand(Demand demand) {
+        return null;
+    }
+
+    @Override
+    public R deleteDemand(Integer demandId) {
+        return null;
     }
 }
