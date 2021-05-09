@@ -23,6 +23,8 @@ public @interface GenerateWrapperType {
 
     Type value() default Type.EQ;
 
+    boolean defaultValue() default false;
+
     /**
      * 生成类型枚举
      */
@@ -38,7 +40,11 @@ public @interface GenerateWrapperType {
         /**
          * 在。。。中
          */
-        IN("in");
+        IN("in"),
+        /**
+         * 默认值
+         */
+        DEFAULT("default");
 
         private final String value;
 

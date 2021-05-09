@@ -1,6 +1,7 @@
 package com.xgkx.procurement.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.entity.Item;
 
 import java.util.List;
@@ -36,4 +37,36 @@ public interface ItemService extends IService<Item> {
      * @return java.util.List<com.xgkx.procurement.entity.Item>
      **/
     List<Item> getListByQueryString(String queryString);
+
+    /**
+     * 添加一个物品
+     *
+     * @author 杨旭晨
+     * @date 15:12 2021/5/9
+     * @param item: 要添加的物品信息
+     * @return com.xgkx.procurement.common.entity.R
+     **/
+    R addItem(Item item);
+
+    /**
+     * 更新物品
+     *
+     * @author 杨旭晨
+     * @date 15:14 2021/5/9
+     * @param item: 要修改的物品
+     * @return com.xgkx.procurement.common.entity.R
+     **/
+    R updateItem(Item item);
+
+    /**
+     * 删除物品
+     * 1.判断当前正在上报的批次中是否有需求需要此物品，如果有，不允许删除
+     * 2.逻辑删除
+     *
+     * @author 杨旭晨
+     * @date 15:16 2021/5/9
+     * @param itemId: 要删除的物品id
+     * @return com.xgkx.procurement.common.entity.R
+     **/
+    R deleteItem(Integer itemId);
 }

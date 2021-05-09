@@ -2,6 +2,7 @@ package com.xgkx.procurement.service.serviceimpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.entity.Item;
 import com.xgkx.procurement.mapper.ItemMapper;
 import com.xgkx.procurement.service.ItemService;
@@ -35,5 +36,20 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements It
         QueryWrapper<Item> wrapper = new QueryWrapper<>();
         wrapper.like("item_name", queryString);
         return baseMapper.selectList(wrapper);
+    }
+
+    @Override
+    public R addItem(Item item) {
+        return null;
+    }
+
+    @Override
+    public R updateItem(Item item) {
+        return null;
+    }
+
+    @Override
+    public R deleteItem(Integer itemId) {
+        return null;
     }
 }

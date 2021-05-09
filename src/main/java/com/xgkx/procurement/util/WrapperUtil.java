@@ -2,7 +2,6 @@ package com.xgkx.procurement.util;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xgkx.procurement.common.annotation.GenerateWrapperType;
 import org.apache.commons.lang3.ArrayUtils;
@@ -38,10 +37,10 @@ public class WrapperUtil {
                     // 序列化字段，忽略
                     continue;
                 }
-                if (field.get(entity) == null) {
-                    // 字段为空，跳过
-                    continue;
-                }
+//                if (field.get(entity) == null) {
+//                    // 字段为空，跳过
+//                    continue;
+//                }
                 if (field.get(entity).toString().equals("")) {
                     // 字段为空，跳过
                     continue;
@@ -84,6 +83,14 @@ public class WrapperUtil {
     private static void setQueryWrapper(QueryWrapper wrapper, Field field, TableField tableField,
                                       Object value) {
         GenerateWrapperType generateWrapperType = field.getAnnotation(GenerateWrapperType.class);
+        if (value == null) {
+            // 字段为空，判断是否有默认值
+            if (GenerateWrapperType.Type.DEFAULT.equals(generateWrapperType.value())) {
+                // 默认值
+                wrapper.eq(tableField.value(), generateWrapperType.defaultValue());
+            }
+            return;
+        }
         if (generateWrapperType == null) {
             // 注解为空，默认为eq
             wrapper.eq(tableField.value(), value);

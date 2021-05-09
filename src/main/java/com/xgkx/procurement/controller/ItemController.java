@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,6 +65,65 @@ public class ItemController extends BaseController<Item, Integer, ItemServiceImp
         }
         List<Item> resultList = service.getListByQueryString(queryString);
         return R.ok().put("data", resultList);
+    }
+
+    @ApiOperation(value = "添加物品", notes = "添加物品", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "物品管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN')")
+    @PostMapping("/addItem")
+    public R addItem(@RequestBody Item item) {
+        if (item == null) {
+            return R.error(Msg.PARAMETER_NULL_MSG);
+        }
+        List<String> checkResult = checkItem(item);
+        if (!checkResult.isEmpty()) {
+            return R.error(StringUtils.listToString(checkResult, "\n"));
+        }
+        item.setDeleteTag(false);
+        item.setCreateBy(getCurrentUserLoginName());
+        return service.addItem(item);
+    }
+
+    @ApiOperation(value = "修改物品", notes = "修改物品", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "物品管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN')")
+    @PostMapping("/updateItem")
+    public R updateItem(@RequestBody Item item) {
+        if (item == null || item.getItemId() == null) {
+            return R.error(Msg.PARAMETER_NULL_MSG);
+        }
+        List<String> checkResult = checkItem(item);
+        if (!checkResult.isEmpty()) {
+            return R.error(StringUtils.listToString(checkResult, "\n"));
+        }
+        return service.updateItem(item);
+    }
+
+    @ApiOperation(value = "删除物品", notes = "删除物品，如果当前批次正在上报，并且有需求中需要此物品，不可删除，如果没有，逻辑删除",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "物品管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN')")
+    @DeleteMapping("/deleteItem")
+    public R deleteItem(@RequestParam Integer itemId) {
+        if (itemId == null) {
+            return R.error(Msg.PARAMETER_NULL_MSG);
+        }
+        return service.deleteItem(itemId);
+    }
+
+    private List<String> checkItem(Item item) {
+        List<String> result = new ArrayList<>();
+        if (item == null) {
+            result.add("参数不能为空");
+            return result;
+        }
+        if (item.getCateId() == null) {
+            result.add("分类不能为空");
+        }
+        if (item.getItemName() != null) {
+            result.add("物品名称不能为空");
+        }
+        return result;
     }
 
 }
