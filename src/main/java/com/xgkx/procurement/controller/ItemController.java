@@ -99,7 +99,7 @@ public class ItemController extends BaseController<Item, Integer, ItemServiceImp
         return service.updateItem(item);
     }
 
-    @ApiOperation(value = "删除物品", notes = "删除物品，如果当前批次正在上报，并且有需求中需要此物品，不可删除，如果没有，逻辑删除",
+    @ApiOperation(value = "删除物品", notes = "删除物品，如果当前批次正在上报，并且有需求中需要此物品，不可删除，如果没有，逻辑删除，将单位一起逻辑删除",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE, tags = "物品管理接口")
     @PreAuthorize("hasAnyRole('DEV', 'ADMIN')")
@@ -120,8 +120,11 @@ public class ItemController extends BaseController<Item, Integer, ItemServiceImp
         if (item.getCateId() == null) {
             result.add("分类不能为空");
         }
-        if (item.getItemName() != null) {
+        if (StringUtils.isEmpty(item.getItemName())) {
             result.add("物品名称不能为空");
+        }
+        if (StringUtils.isEmpty(item.getItemDescription())) {
+            result.add("物品描述不能为空");
         }
         return result;
     }

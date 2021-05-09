@@ -1,6 +1,7 @@
 package com.xgkx.procurement.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.entity.Unit;
 
 import java.util.List;
@@ -27,4 +28,35 @@ public interface UnitService extends IService<Unit> {
      **/
     List<Unit> getListByItemId(Integer itemId);
 
+    /**
+     * 添加一个单位
+     *
+     * @author 杨旭晨
+     * @date 15:52 2021/5/9
+     * @param unit: 要添加的单位
+     * @return com.xgkx.procurement.common.entity.R
+     **/
+    R addUnit(Unit unit);
+
+    /**
+     * 修改单位
+     *
+     * @author 杨旭晨
+     * @date 15:55 2021/5/9
+     * @param unit:
+     * @return com.xgkx.procurement.common.entity.R
+     **/
+    R updateUnit(Unit unit);
+
+    /**
+     * 删除单位
+     * 1.如果有正在上报的批次中使用，不允许删除粗
+     * 2.如果有已经停止的需求使用，逻辑删除
+     *
+     * @author 杨旭晨
+     * @date 15:56 2021/5/9
+     * @param unitId: 单位id
+     * @return com.xgkx.procurement.common.entity.R
+     **/
+    R deleteItem(Integer unitId);
 }
