@@ -109,11 +109,13 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R updateDemand(Demand demand) {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R deleteDemand(Integer demandId) {
         return null;
     }

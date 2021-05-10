@@ -105,21 +105,25 @@ public class UserSerivceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R resetUserPassword(String userId, String newPassword) {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R changePassword(String oldPassword, String newPassword) {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R changeUserInfo(User user, String userId) {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R updaetUser(User user) {
         return null;
     }

@@ -39,16 +39,19 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements It
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R addItem(Item item) {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R updateItem(Item item) {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R deleteItem(Integer itemId) {
         return null;
     }

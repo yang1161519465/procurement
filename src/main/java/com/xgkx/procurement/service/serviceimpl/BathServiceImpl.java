@@ -48,6 +48,7 @@ public class BathServiceImpl extends ServiceImpl<BathMapper, Bath> implements Ba
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R deleteBath(Integer bathId, Boolean isDeleteDemand) {
         Bath bath = getById(bathId);
         if (bath == null) {

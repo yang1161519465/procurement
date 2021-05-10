@@ -32,16 +32,19 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, Org> implements OrgSe
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R addOrg(Org org) {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R updateOrg(Org org) {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R deleteOrg(Integer orgId) {
         return null;
     }

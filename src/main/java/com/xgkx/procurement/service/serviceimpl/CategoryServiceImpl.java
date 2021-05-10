@@ -67,16 +67,19 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R addCategory(Category category) {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R updateCategory(Category category) {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R deleteCategory(Integer categoryId, boolean isDeleteChildren, boolean isDeleteItem) {
         return null;
     }

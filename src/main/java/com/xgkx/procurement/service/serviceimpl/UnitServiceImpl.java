@@ -32,16 +32,19 @@ public class UnitServiceImpl extends ServiceImpl<UnitMapper, Unit> implements Un
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R addUnit(Unit unit) {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R updateUnit(Unit unit) {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R deleteItem(Integer unitId) {
         return null;
     }

@@ -23,4 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/procurement")
 public class ProcurementController extends BaseController<Procurement, Integer, ProcurementServiceImpl> {
+
+
+
 }
