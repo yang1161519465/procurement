@@ -1,8 +1,3 @@
-server:
-  port: 3501  # 修改默认端口为3501
-  servlet:
-    context-path: /  # 修改访问项目根目录为/
-
 spring:
   # 数据源相关配置
   datasource:
