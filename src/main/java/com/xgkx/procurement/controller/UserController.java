@@ -153,10 +153,10 @@ public class UserController extends BaseController<User, String, UserSerivce> {
         if (StringUtils.isEmpty(user.getLoginName())) {
             result.add("登陆名不能为空");
         }
-        if (StringUtils.isNotEmpty(user.getEmail()) && StringUtils.isEmail(user.getEmail())) {
+        if (StringUtils.isNotEmpty(user.getEmail()) && !StringUtils.isEmail(user.getEmail())) {
             result.add("邮箱格式错误");
         }
-        if (StringUtils.isNotEmpty(user.getPhoneNum()) && StringUtils.isPhoneNum(user.getPhoneNum())) {
+        if (StringUtils.isNotEmpty(user.getPhoneNum()) && !StringUtils.isPhoneNum(user.getPhoneNum())) {
             result.add("电话号码格式错误");
         }
         return result;
