@@ -4,7 +4,7 @@ server:
     context-path: /  # 修改访问项目根目录为/
 spring:
   profiles:
-    active: dev
+    active: prod
   application:
     name: procurementSystem
 
