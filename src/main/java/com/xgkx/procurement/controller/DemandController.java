@@ -133,6 +133,7 @@ public class DemandController extends BaseController<Demand, Integer, DemandServ
         if (demand.getDemandId() == null) {
             return R.error(Msg.PARAMETER_NULL_MSG);
         }
+        demand.setUpdateBy(getCurrentUserLoginName());
         return service.updateDemand(demand);
     }
 

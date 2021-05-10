@@ -41,10 +41,10 @@ public class WrapperUtil {
 //                    // 字段为空，跳过
 //                    continue;
 //                }
-                if (field.get(entity).toString().equals("")) {
-                    // 字段为空，跳过
-                    continue;
-                }
+//                if (field.get(entity).toString().equals("")) {
+//                    // 字段为空，跳过
+//                    continue;
+//                }
                 // 获取主键注解 TableId
                 TableId tableId = field.getAnnotation(TableId.class);
                 if (tableId != null) {
@@ -83,9 +83,9 @@ public class WrapperUtil {
     private static void setQueryWrapper(QueryWrapper wrapper, Field field, TableField tableField,
                                       Object value) {
         GenerateWrapperType generateWrapperType = field.getAnnotation(GenerateWrapperType.class);
-        if (value == null) {
+        if (value == null || value.equals("s")) {
             // 字段为空，判断是否有默认值
-            if (GenerateWrapperType.Type.DEFAULT.equals(generateWrapperType.value())) {
+            if (generateWrapperType != null && GenerateWrapperType.Type.DEFAULT.equals(generateWrapperType.value())) {
                 // 默认值
                 wrapper.eq(tableField.value(), generateWrapperType.defaultValue());
             }

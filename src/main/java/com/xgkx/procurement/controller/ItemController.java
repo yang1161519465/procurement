@@ -96,6 +96,7 @@ public class ItemController extends BaseController<Item, Integer, ItemServiceImp
         if (!checkResult.isEmpty()) {
             return R.error(StringUtils.listToString(checkResult, "\n"));
         }
+        item.setUpdateBy(getCurrentUserLoginName());
         return service.updateItem(item);
     }
 

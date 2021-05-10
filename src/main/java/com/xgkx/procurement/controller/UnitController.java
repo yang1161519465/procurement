@@ -75,6 +75,7 @@ public class UnitController extends BaseController<Unit, Integer, UnitServiceImp
         if (!checkResult.isEmpty()) {
             return R.error(StringUtils.listToString(checkResult, "\n"));
         }
+        unit.setUpdateBy(getCurrentUserLoginName());
         return service.updateUnit(unit);
     }
 

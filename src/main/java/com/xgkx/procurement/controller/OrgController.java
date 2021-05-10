@@ -60,6 +60,7 @@ public class OrgController extends BaseController<Org, Integer, OrgServiceImpl> 
         if (!checkResult.isEmpty()) {
             return R.error(StringUtils.listToString(checkResult, "\n"));
         }
+        org.setUpdateBy(getCurrentUserLoginName());
         return service.updateOrg(org);
     }
 

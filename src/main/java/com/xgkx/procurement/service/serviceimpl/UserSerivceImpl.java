@@ -1,5 +1,6 @@
 package com.xgkx.procurement.service.serviceimpl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.entity.MyUserDetrails;
@@ -10,7 +11,6 @@ import com.xgkx.procurement.service.RoleService;
 import com.xgkx.procurement.service.UserSerivce;
 import com.xgkx.procurement.util.MD5Utils;
 import com.xgkx.procurement.util.StringUtils;
-import com.xgkx.procurement.util.WrapperUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -74,7 +74,9 @@ public class UserSerivceImpl extends ServiceImpl<UserMapper, User> implements Us
     public User getByLoginName(String loginName) {
         User queryParams = new User();
         queryParams.setLoginName(loginName);
-        User user = baseMapper.selectOne(WrapperUtil.generateQueryWrapperFromObject(queryParams));
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("login_name", loginName);
+        User user = baseMapper.selectOne(wrapper);
         if (user == null) {
             return null;
         }

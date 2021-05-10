@@ -64,7 +64,7 @@ public class BathController extends BaseController<Bath, Integer, BathServiceImp
         if (!result.isEmpty()) {
             return R.error(StringUtils.listToString(result, "\n"));
         }
-        bath.setCreateBy(getCurrentUserLoginName());
+        bath.setUpdateBy(getCurrentUserLoginName());
         return service.updateBath(bath);
     }
 

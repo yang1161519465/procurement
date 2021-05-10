@@ -90,6 +90,7 @@ public class CategoryController extends BaseController<Category, Integer, Catego
         if (!result.isEmpty()) {
             return R.error(StringUtils.listToString(result, "\n"));
         }
+        category.setUpdateBy(getCurrentUserLoginName());
         return service.updateCategory(category);
     }
 
