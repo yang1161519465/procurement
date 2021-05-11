@@ -65,7 +65,7 @@ public class BathServiceImpl extends ServiceImpl<BathMapper, Bath> implements Ba
             // 存在需求提交，需要判断是否删除需求
             if (isDeleteDemand) {
                 // 删除需求
-                demandService.removeByIds(demandList.stream().map(Demand::getBathId).collect(Collectors.toList()));
+                demandService.removeByIds(demandList.stream().map(Demand::getDemandId).collect(Collectors.toList()));
                 removeById(bathId);
             } else {
                 // 不删除需求

@@ -27,7 +27,7 @@ public interface DemandService extends IService<Demand> {
      * @param demand:
      * @return com.xgkx.procurement.entity.Demand
      **/
-    Demand submitDemand(Demand demand);
+    R submitDemand(Demand demand);
 
     /**
      * 获取我的组织的需求列表

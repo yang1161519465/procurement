@@ -7,11 +7,14 @@ import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.constant.Msg;
 import com.xgkx.procurement.entity.Bath;
 import com.xgkx.procurement.entity.Demand;
+import com.xgkx.procurement.entity.User;
+import com.xgkx.procurement.service.UserSerivce;
 import com.xgkx.procurement.service.serviceimpl.DemandServiceImpl;
 import com.xgkx.procurement.util.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +38,9 @@ import java.util.List;
 @RequestMapping("/demand")
 public class DemandController extends BaseController<Demand, Integer, DemandServiceImpl> {
 
+    @Autowired
+    private UserSerivce userSerivce;
+
     @ApiOperation(value = "提交一个需求", notes = "提交一个需求", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE, tags = "需求管理接口")
     @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
@@ -47,9 +53,11 @@ public class DemandController extends BaseController<Demand, Integer, DemandServ
         if (!checkResult.isEmpty()) {
             return R.error(StringUtils.listToString(checkResult, "\n"));
         }
+        // 设置组织机构信息
+        User user = userSerivce.getById(getCurrentUserId());
+        demand.setOrgId(user.getOrgId());
         demand.setCreateBy(getCurrentUserLoginName());
-        Demand result = service.submitDemand(demand);
-        return R.ok().put("data", result);
+        return service.submitDemand(demand);
     }
 
     @ApiOperation(value = "获取我的组织及以下的需求列表", notes = "获取我的组织及以下的需求列表", consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -165,9 +173,6 @@ public class DemandController extends BaseController<Demand, Integer, DemandServ
         }
         if (demand.getItemId() == null) {
             result.add("物品不能为空");
-        }
-        if (demand.getOrgId() == null) {
-            result.add("组织机构不能为空");
         }
         if (demand.getUnitId() == null) {
             result.add("单位不能为空");

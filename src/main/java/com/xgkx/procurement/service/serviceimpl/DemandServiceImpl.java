@@ -11,6 +11,7 @@ import com.xgkx.procurement.service.BathService;
 import com.xgkx.procurement.service.DemandService;
 import com.xgkx.procurement.service.OrgService;
 import com.xgkx.procurement.service.UserSerivce;
+import com.xgkx.procurement.util.DateTimeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,9 +42,18 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
 
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public Demand submitDemand(Demand demand) {
+    public R submitDemand(Demand demand) {
+        Bath bath = bathService.getById(demand.getBathId());
+        if (bath.getReportStartTime().isAfter(DateTimeUtils.getCurrentLocalDateTime())) {
+            // 批次还没有开始
+            return R.error("批次还没有开始，不允许提交需求");
+        }
+        if (bath.getReportStopTime().isBefore(DateTimeUtils.getCurrentLocalDateTime())) {
+            // 批次已经结束
+            return R.error("批次已经结束，请等待下一批");
+        }
         save(demand);
-        return demand;
+        return R.ok().put("data", demand);
     }
 
     @Override

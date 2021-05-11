@@ -89,7 +89,7 @@ public class BathController extends BaseController<Bath, Integer, BathServiceImp
         if (bathId == null) {
             return R.error(Msg.PARAMETER_NULL_MSG);
         }
-        return service.deleteBath(bathId, true);
+        return service.deleteBath(bathId, false);
     }
 
     /**
@@ -102,8 +102,9 @@ public class BathController extends BaseController<Bath, Integer, BathServiceImp
      **/
     private List<String> checkParams(Bath bath) {
         List<String> result = new ArrayList<>();
-        if (bath != null) {
+        if (bath == null) {
             result.add("对象不能为空");
+            return result;
         }
         if (StringUtils.isEmpty(bath.getPathName())) {
             result.add("批次名称不能为空");
@@ -114,7 +115,7 @@ public class BathController extends BaseController<Bath, Integer, BathServiceImp
         if (bath.getReportStopTime() == null) {
             result.add("结束时间不能为空");
         }
-        if (bath.getReportStartTime().isAfter(bath.getReportStopTime())) {
+        if (bath.getReportStopTime() != null && bath.getReportStartTime() != null && bath.getReportStartTime().isAfter(bath.getReportStopTime())) {
             result.add("开始时间不能再结束时间之后");
         }
         return result;
