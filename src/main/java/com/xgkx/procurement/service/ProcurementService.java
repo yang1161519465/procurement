@@ -1,6 +1,7 @@
 package com.xgkx.procurement.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.entity.Procurement;
 
 /**
@@ -14,4 +15,14 @@ import com.xgkx.procurement.entity.Procurement;
  * 作者名       修改时间       版本号           描述
  **/
 public interface ProcurementService extends IService<Procurement> {
+
+    /**
+     * 采购物品
+     *
+     * @author 杨旭晨
+     * @date 17:21 2021/5/11
+     * @param procurement:
+     * @return com.xgkx.procurement.common.entity.R
+     **/
+    R purchaseItems (Procurement procurement);
 }

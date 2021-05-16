@@ -98,7 +98,7 @@ public class StringUtils {
         if (isEmpty(s)) {
             return false;
         }
-        String regEx1 = "^1[3|4|5|7|8][0-9]\\\\d{4,8}$";
+        String regEx1 = "^1[3456789]\\d{9}$";
         Pattern p = Pattern.compile(regEx1);
         Matcher m = p.matcher(s);
         if(m.matches()){

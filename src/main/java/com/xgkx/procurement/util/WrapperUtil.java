@@ -49,7 +49,9 @@ public class WrapperUtil {
                 TableId tableId = field.getAnnotation(TableId.class);
                 if (tableId != null) {
                     // 是主键  主键直接用等于
-                    wrapper.eq(tableId.value(), field.get(entity));
+                    if (field.get(entity) != null) {
+                        wrapper.eq(tableId.value(), field.get(entity));
+                    }
                 }
                 TableField tableField = field.getAnnotation(TableField.class);
                 if (tableField != null) {
