@@ -1,5 +1,6 @@
 package com.xgkx.procurement.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xgkx.procurement.common.controller.BaseController;
@@ -8,8 +9,10 @@ import com.xgkx.procurement.constant.Msg;
 import com.xgkx.procurement.entity.Bath;
 import com.xgkx.procurement.entity.Demand;
 import com.xgkx.procurement.entity.User;
+import com.xgkx.procurement.exception.BussinessException;
 import com.xgkx.procurement.service.UserSerivce;
 import com.xgkx.procurement.service.serviceimpl.DemandServiceImpl;
+import com.xgkx.procurement.util.ServletUtils;
 import com.xgkx.procurement.util.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +22,9 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -154,6 +160,20 @@ public class DemandController extends BaseController<Demand, Integer, DemandServ
             return R.error(Msg.PARAMETER_NULL_MSG);
         }
         return service.deleteDemand(demandId);
+    }
+
+    @ApiOperation(value = "导出我所在组织的指定批次的需求", notes = "导出我所在组织的指定批次的需求", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "需求管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    @PostMapping("/exprotPdf")
+    public void exprotPdf(@RequestParam Integer bathId, @RequestBody JSONObject data, HttpServletResponse response) throws IOException {
+        if (bathId == null || data == null) {
+            throw new BussinessException(Msg.PARAMETER_NULL_MSG);
+        }
+        String fileUrl = service.exprotPdf(bathId, data, getCurrentUserId());
+        File file = new File(fileUrl);
+        ServletUtils.returnFile(response, file);
+        return;
     }
 
     private List<String> checkDemand(Demand demand) {

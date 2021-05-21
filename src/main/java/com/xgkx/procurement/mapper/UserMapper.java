@@ -15,4 +15,13 @@ import com.xgkx.procurement.entity.User;
  **/
 public interface UserMapper extends BaseMapper<User> {
 
+    /**
+     * 查询用户信息，不包括密码
+     *
+     * @author 杨旭晨
+     * @date 18:33 2021/5/21
+     * @param currentUserId: 用户id
+     * @return com.xgkx.procurement.entity.User
+     **/
+    User info (String currentUserId);
 }

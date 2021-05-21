@@ -70,4 +70,14 @@ public interface ItemService extends IService<Item> {
      * @return com.xgkx.procurement.common.entity.R
      **/
     R deleteItem(Integer itemId);
+
+    /**
+     * 根据id列表获取列表
+     *
+     * @author 杨旭晨
+     * @date 10:37 2021/5/21
+     * @param itemIdList: id列表
+     * @return java.util.List<com.xgkx.procurement.entity.Item>
+     **/
+    List<Item> getListByIds (List<Integer> itemIdList);
 }

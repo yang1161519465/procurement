@@ -19,4 +19,11 @@
     update_by, update_time
   </sql>
 
+  <select id="info" resultMap="BaseResultMap">
+    select su.user_id, su.user_name, su.login_name, su.org_id, su.email, su.phone_num, so.org_name
+    from s_user su
+    left join s_org so on su.org_id = so.org_id
+    where su.user_id = #{currentUserId}
+  </select>
+
 </mapper>

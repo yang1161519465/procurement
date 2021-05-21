@@ -102,5 +102,12 @@ public class User extends BaseEntity implements Serializable {
     @TableField(exist = false)
     private List<Integer> roleIds;
 
+    /**
+     * 组织机构名称
+     */
+    @ApiModelProperty(value = "组织机构名称")
+    @TableField(exist = false)
+    private String orgName;
+
     private static final long serialVersionUID = 1L;
 }

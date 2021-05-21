@@ -1,10 +1,12 @@
 package com.xgkx.procurement.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.entity.Bath;
 import com.xgkx.procurement.entity.Demand;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -93,4 +95,16 @@ public interface DemandService extends IService<Demand> {
      * @return com.xgkx.procurement.common.entity.R
      **/
     R deleteDemand(Integer demandId);
+
+    /**
+     * 根据批次id导出当前批次的所有需求
+     *
+     * @author 杨旭晨
+     * @date 10:24 2021/5/21
+     * @param bathId: 批次id
+     * @param currentUserId: 当前登陆者用户id
+     * @param data: 表格内容 包括 org_name: 组织机构名称, user_name: 申请人姓名, phone_num: 联系电话, source: 资金来源
+     * @return java.lang.String
+     **/
+    String exprotPdf (Integer bathId, JSONObject data, String currentUserId) throws IOException;
 }

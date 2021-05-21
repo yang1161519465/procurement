@@ -1,5 +1,7 @@
 package com.xgkx.procurement.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xgkx.procurement.common.controller.BaseController;
 import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.constant.Msg;
@@ -39,16 +41,32 @@ public class ItemController extends BaseController<Item, Integer, ItemServiceImp
             produces = MediaType.APPLICATION_JSON_VALUE, tags = "物品管理接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "cateId", value = "分类id", required = true, dataType = "Integer",
+                    paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "第几页", required = false, dataType = "Integer",
+                    paramType = "query"),
+            @ApiImplicitParam(name = "pageNum", value = "每页多少条", required = false, dataType = "Integer",
                     paramType = "query")
     })
     @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
     @GetMapping("/getListByCateId")
-    public R getListByCateId(@RequestParam Integer cateId) {
+    public R getListByCateId(@RequestParam Integer cateId, @RequestParam(required = false) Integer pageSize,
+                             @RequestParam(required = false) Integer pageNum) {
         if (cateId == null) {
             return R.error(Msg.PARAMETER_NULL_MSG);
         }
-        List<Item> resultList = service.getListByCateId(cateId);
-        return R.ok().put("data", resultList);
+        if (pageSize != null && pageNum != null && pageNum > 0 && pageSize > 0) {
+            // 分页
+            PageHelper.startPage(pageNum, pageSize);
+            List<Item> resultList = service.getListByCateId(cateId);
+            PageInfo<Item> result = new PageInfo<>(resultList);
+            return R.ok().put("data", result);
+        } else {
+            // 不分页
+            List<Item> resultList = service.getListByCateId(cateId);
+            return R.ok().put("data", resultList);
+        }
+
+
     }
 
     @ApiOperation(value = "根据查询字符串查询物品列表", notes = "根据查询字符串查询物品列表", consumes = MediaType.APPLICATION_JSON_VALUE,

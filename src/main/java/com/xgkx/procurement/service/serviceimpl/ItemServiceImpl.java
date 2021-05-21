@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,5 +55,15 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements It
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R deleteItem(Integer itemId) {
         return null;
+    }
+
+    @Override
+    public List<Item> getListByIds (List<Integer> itemIdList) {
+        if (itemIdList == null || itemIdList.isEmpty()) {
+            return new ArrayList<>();
+        }
+        QueryWrapper<Item> wrapper = new QueryWrapper<>();
+        wrapper.in("item_id", itemIdList);
+        return baseMapper.selectList(wrapper);
     }
 }

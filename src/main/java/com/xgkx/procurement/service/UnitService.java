@@ -59,4 +59,14 @@ public interface UnitService extends IService<Unit> {
      * @return com.xgkx.procurement.common.entity.R
      **/
     R deleteItem(Integer unitId);
+
+    /**
+     * 根据id列表获取列表
+     *
+     * @author 杨旭晨
+     * @date 10:38 2021/5/21
+     * @param unitIdList: id列表
+     * @return java.util.List<com.xgkx.procurement.entity.Unit>
+     **/
+    List<Unit> getListByIds (List<Integer> unitIdList);
 }

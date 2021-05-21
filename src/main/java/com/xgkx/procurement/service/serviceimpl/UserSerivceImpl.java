@@ -98,9 +98,7 @@ public class UserSerivceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public User info(String currentUserId) {
-        User user = this.getById(currentUserId);
-        user.setPasswordMd5("");
-        user.setPassword("");
+        User user = baseMapper.info(currentUserId);
         List<Role> roleList = roleService.getListByUserId(user.getUserId());
         user.setRoles(roleList);
         return user;
