@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +27,9 @@ import java.util.List;
 public class OrgServiceImpl extends ServiceImpl<OrgMapper, Org> implements OrgService {
     @Override
     public List<Org> getListByOrgIds(List<Integer> orgIds) {
+        if (orgIds == null || orgIds.isEmpty()) {
+            return new ArrayList<>();
+        }
         QueryWrapper<Org> wrapper = new QueryWrapper<>();
         wrapper.in("org_id", orgIds);
         return baseMapper.selectList(wrapper);

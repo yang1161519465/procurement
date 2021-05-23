@@ -132,7 +132,19 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R deleteDemand(Integer demandId) {
-        return null;
+        Demand demand = getById(demandId);
+        if (demand == null) {
+            return R.error("请不要重复点击");
+        }
+        Bath bath = bathService.getById(demand.getBathId());
+        if (bath.getReportStopTime().isBefore(DateTimeUtils.getCurrentLocalDateTime())) {
+            return R.error("已经停止上报，不允许删除");
+        }
+        if (demand.getIsMeet()) {
+            return R.error("已经给予的需求不允许删除");
+        }
+        removeById(demandId);
+        return R.ok();
     }
 
     @Override
