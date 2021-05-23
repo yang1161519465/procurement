@@ -9,7 +9,7 @@ import com.xgkx.procurement.entity.*;
 import com.xgkx.procurement.mapper.DemandMapper;
 import com.xgkx.procurement.service.*;
 import com.xgkx.procurement.util.DateTimeUtils;
-import com.xgkx.procurement.util.ExportToPdf;
+import com.xgkx.procurement.util.ItexUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -137,6 +137,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
 
     @Override
     public String exprotPdf (Integer bathId, JSONObject data, String currentUserId) throws IOException {
+        Integer pageNum = 22;
         // 查询当前用户信息
         User user = userSerivce.getById(currentUserId);
         // 查询组织机构消息
@@ -148,6 +149,9 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         wrapper.eq("org_id", org.getOrgId());
         wrapper.eq("bath_id", bathId);
         List<Demand> demandList = baseMapper.selectList(wrapper);
+        if (demandList == null || demandList.isEmpty()) {
+            return "";
+        }
         // 获取所有物品名称
         List<Integer> itemIdList = demandList.stream().map(Demand::getItemId).collect(Collectors.toList());
         List<Item> itemList = itemService.getListByIds(itemIdList);
@@ -156,46 +160,67 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         List<Integer> unitIdList = demandList.stream().map(Demand::getUnitId).collect(Collectors.toList());
         List<Unit> unitList = unitService.getListByIds(unitIdList);
         Map<Integer, Unit> unitMap = unitList.stream().collect(Collectors.toMap(Unit::getUnitId, item -> item));
-        // 设置导出数据集
-        Map<String, String> exportData = new HashMap<>();
-        // 组织机构名称
-        if (data.getString("org_name") != null) {
-            exportData.put("org_name", data.getString("org_name"));
-        } else {
-            exportData.put("org_name", org.getOrgName());
-        }
-        // 申请人
-        if (data.getString("user_name") != null) {
-            exportData.put("user_name", data.getString("user_name"));
-        } else {
-            exportData.put("user_name", user.getUserName());
-        }
-        // 联系电话
-        if (data.getString("phone_num") != null) {
-            exportData.put("phone_num", data.getString("phone_num"));
-        } else {
-            exportData.put("phone_num", user.getPhoneNum());
-        }
-        // 来源
-        if (data.getString("source") != null) {
-            exportData.put("source", data.getString("source"));
-        }
-        // 办公用品内容：
-        for (int i = 0; i < demandList.size(); i++) {
-            Demand demand = demandList.get(i);
-            Item item = itemMap.get(demand.getItemId());
-            if (item != null) {
-                String name = item.getItemName();
-                String description = item.getItemDescription() == null ? "" : item.getItemDescription();
-                exportData.put("item_" + (i + 1), name + " " + description);
+        // 计算文件个数  一个文件22个
+        Integer fileNum = demandList.size() % 22 == 0 ? demandList.size() / 22 : demandList.size() / 22 + 1;
+        List<String> filePaths = new ArrayList<>();
+        // 对需求的循环
+        // 循环导出
+        for (int index = 0; index < fileNum; index++) {
+            int i = (index * pageNum);
+            // 设置导出数据集
+            Map<String, String> exportData = new HashMap<>();
+            // 组织机构名称
+            if (data.getString("org_name") != null) {
+                exportData.put("org_name", data.getString("org_name"));
+            } else {
+                exportData.put("org_name", org.getOrgName());
             }
-            Unit unit = unitMap.get(demand.getUnitId());
-            if (unit != null) {
-                exportData.put("unit_" + (i + 1), demand.getCount() + unit.getUnitName());
+            // 申请人
+            if (data.getString("user_name") != null) {
+                exportData.put("user_name", data.getString("user_name"));
+            } else {
+                exportData.put("user_name", user.getUserName());
             }
+            // 联系电话
+            if (data.getString("phone_num") != null) {
+                exportData.put("phone_num", data.getString("phone_num"));
+            } else {
+                exportData.put("phone_num", user.getPhoneNum());
+            }
+            // 来源
+            if (data.getString("source") != null) {
+                exportData.put("source", data.getString("source"));
+            }
+            // 办公用品内容：
+            for (; i < demandList.size(); i++) {
+                Demand demand = demandList.get(i);
+                Item item = itemMap.get(demand.getItemId());
+                if (exportData.containsKey("item_" + (i % pageNum + 1))) {
+                    continue;
+                }
+                if (item != null) {
+                    String name = item.getItemName();
+                    String description = item.getItemDescription() == null ? "" : item.getItemDescription();
+                    exportData.put("item_" + (i % pageNum + 1), name + "\n" + description);
+                }
+                Unit unit = unitMap.get(demand.getUnitId());
+                if (unit != null) {
+                    exportData.put("unit_" + (i % pageNum + 1), demand.getCount() + unit.getUnitName());
+                }
+            }
+            String filePath = ItexUtils.exportToPdf(
+                    filePathPropreties.getExportTemplateFilePath() + "item_template.pdf",
+                    exportData,
+                    org.getOrgName() + "-" + bath.getPathName() + "申购表-" + (index + 1)
+            );
+            filePaths.add(filePath);
         }
-        String filePath = ExportToPdf.exportToPdf(filePathPropreties.getExportTemplateFilePath() + "item_template.pdf", exportData,
-                org.getOrgName() + "-" + bath.getPathName() + "申购表");
-        return filePath;
+        if (filePaths.size() > 1) {
+            // 大于一个文件，将文件合并
+            String exportFilePath = ItexUtils.mergePdf(filePaths);
+            return exportFilePath;
+        } else {
+            return filePaths.get(0);
+        }
     }
 }

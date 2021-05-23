@@ -69,7 +69,7 @@ public class BathServiceImpl extends ServiceImpl<BathMapper, Bath> implements Ba
                 removeById(bathId);
             } else {
                 // 不删除需求
-                return R.error("该批次已经有机构提交了需求，请确认");
+                return R.ok("该批次已经有机构提交了需求，请确认");
             }
         }
         return R.ok();

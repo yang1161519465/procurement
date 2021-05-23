@@ -171,6 +171,9 @@ public class DemandController extends BaseController<Demand, Integer, DemandServ
             throw new BussinessException(Msg.PARAMETER_NULL_MSG);
         }
         String fileUrl = service.exprotPdf(bathId, data, getCurrentUserId());
+        if (fileUrl == "") {
+            return;
+        }
         File file = new File(fileUrl);
         ServletUtils.returnFile(response, file);
         return;
