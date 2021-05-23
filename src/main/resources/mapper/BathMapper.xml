@@ -18,4 +18,23 @@
     create_time, update_by, update_time
   </sql>
 
+  <select id="getListByCategory" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from b_bath
+    <where>
+      <if test="bathId != null and bathId != ''">
+        and bath_id = #{bathId}
+      </if>
+      <if test="pathName != null and pathName != ''">
+        and path_name like concat('%', #{pathName}, '%')
+      </if>
+      <if test="orgId != null and orgId != ''">
+        and org_id = #{orgId}
+      </if>
+      <if test="createBy != null and createBy != ''">
+        and create_by = #{createBy}
+      </if>
+    </where>
+  </select>
+
 </mapper>

@@ -2,6 +2,7 @@ package com.xgkx.procurement.service.serviceimpl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xgkx.procurement.common.entity.R;
+import com.xgkx.procurement.const_enum.BathStatusEnum;
 import com.xgkx.procurement.entity.Bath;
 import com.xgkx.procurement.entity.Demand;
 import com.xgkx.procurement.mapper.BathMapper;
@@ -73,6 +74,29 @@ public class BathServiceImpl extends ServiceImpl<BathMapper, Bath> implements Ba
             }
         }
         return R.ok();
+    }
+
+    @Override
+    public List<Bath> getListByCategory (Bath bath) {
+        List<Bath> bathList = baseMapper.getListByCategory(bath);
+        for (Bath item : bathList) {
+            setBathStatus(item);
+        }
+        return bathList;
+    }
+
+    private void setBathStatus(Bath bath) {
+        if (bath.getReportStartTime().isAfter(DateTimeUtils.getCurrentLocalDateTime())) {
+            // 还没有开始
+            bath.setBathStatus(BathStatusEnum.HASNOTSTARTED.getCode());
+        } else if (bath.getReportStartTime().isBefore(DateTimeUtils.getCurrentLocalDateTime()) &&
+            bath.getReportStopTime().isAfter(DateTimeUtils.getCurrentLocalDateTime())) {
+            // 上报中
+            bath.setBathStatus(BathStatusEnum.REPORTING.getCode());
+        } else if (bath.getReportStopTime().isBefore(DateTimeUtils.getCurrentLocalDateTime())) {
+            // 已结束
+            bath.setBathStatus(BathStatusEnum.OVER.getCode());
+        }
     }
 
 }

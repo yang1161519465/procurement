@@ -1,5 +1,7 @@
 package com.xgkx.procurement.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xgkx.procurement.common.controller.BaseController;
 import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.constant.Msg;
@@ -90,6 +92,32 @@ public class BathController extends BaseController<Bath, Integer, BathServiceImp
             return R.error(Msg.PARAMETER_NULL_MSG);
         }
         return service.deleteBath(bathId, false);
+    }
+
+    @ApiOperation(value = "根据条件查询批次", notes = "根据条件查询批次",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "批次管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    @PostMapping("/getListByCategory")
+    public R getListByCategory(@RequestBody Bath bath, @RequestParam(required = false) Integer pageSize,
+                               @RequestParam(required = false) Integer pageNum) {
+        if (bath == null) {
+            return R.error(Msg.PARAMETER_NULL_MSG);
+        }
+        if (pageSize != null && pageNum != null && pageNum > 0 && pageSize > 0) {
+            // 分页查询
+            PageHelper.startPage(pageNum, pageSize);
+            List<Bath> bathList = service.getListByCategory(bath);
+            PageInfo<Bath> result = new PageInfo<>(bathList);
+            return R.ok().put("data", result);
+        } else {
+            // 不分页
+            List<Bath> bathList = service.getListByCategory(bath);
+            return R.ok().put("data", bathList);
+        }
+
+
+
     }
 
     /**

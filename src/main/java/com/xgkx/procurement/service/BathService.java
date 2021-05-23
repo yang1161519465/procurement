@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.entity.Bath;
 
+import java.util.List;
+
 /**
  * 采购批次  业务逻辑层
  *
@@ -46,4 +48,14 @@ public interface BathService extends IService<Bath> {
      * @return com.xgkx.procurement.common.entity.R
      **/
     R deleteBath(Integer bathId, Boolean isDeleteDemand);
+
+    /**
+     * 根据条件查询批次列表
+     *
+     * @author 杨旭晨
+     * @date 15:13 2021/5/23
+     * @param bath: 查询条件
+     * @return java.util.List<com.xgkx.procurement.entity.Bath>
+     **/
+    List<Bath> getListByCategory (Bath bath);
 }
