@@ -42,6 +42,7 @@ public class ExportToPdf {
         ByteArrayOutputStream bos;
         PdfStamper stamper;
         System.out.println(templateUrl);
+        // 设置为宋体
         String fontUrl = templateUrl.substring(0, templateUrl.lastIndexOf(File.separator)) + File.separator + "simsun.ttc";
         System.out.println(fontUrl);
         if (!new File(fontUrl).exists()) {
@@ -59,8 +60,9 @@ public class ExportToPdf {
             reader = new PdfReader(templateUrl);
             bos = new ByteArrayOutputStream();
             stamper = new PdfStamper(reader, bos);
+            // 获取模板中的所有字段
             AcroFields form = stamper.getAcroFields();
-            //文字类的内容处理
+            // 设置字体
             form.addSubstitutionFont(bf);
             for (String key : data.keySet()) {
                 String value = data.get(key);
