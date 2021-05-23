@@ -1,5 +1,6 @@
 package com.xgkx.procurement.util;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -77,6 +78,7 @@ public class ServletUtils {
 
     public static void returnFile(HttpServletResponse response, File file) {
         response.setHeader("Content-Disposition", "attachment;filename="+file.getName());
+        response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
         OutputStream os = null;
         BufferedInputStream bis = null;
         try {
