@@ -126,7 +126,15 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R updateDemand(Demand demand) {
-        return null;
+        Bath bath = bathService.getById(demand.getBathId());
+        if (bath.getReportStopTime().isBefore(DateTimeUtils.getCurrentLocalDateTime())) {
+            return R.error("已经停止上报，不允许修改");
+        }
+        if (demand.getIsMeet()) {
+            return R.error("已经给予的需求不允许修改");
+        }
+        updateById(demand);
+        return R.ok();
     }
 
     @Override
