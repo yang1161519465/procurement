@@ -157,7 +157,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
 
     @Override
     public String exprotPdf (Integer bathId, JSONObject data, String currentUserId) throws IOException {
-        Integer pageNum = 22;
+        Integer pageNum = 18;
         // 查询当前用户信息
         User user = userSerivce.getById(currentUserId);
         // 查询组织机构消息
@@ -180,8 +180,8 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         List<Integer> unitIdList = demandList.stream().map(Demand::getUnitId).collect(Collectors.toList());
         List<Unit> unitList = unitService.getListByIds(unitIdList);
         Map<Integer, Unit> unitMap = unitList.stream().collect(Collectors.toMap(Unit::getUnitId, item -> item));
-        // 计算文件个数  一个文件22个
-        Integer fileNum = demandList.size() % 22 == 0 ? demandList.size() / 22 : demandList.size() / 22 + 1;
+        // 计算文件个数  一个文件pageNum个
+        Integer fileNum = demandList.size() % pageNum == 0 ? demandList.size() / pageNum : demandList.size() / pageNum + 1;
         List<String> filePaths = new ArrayList<>();
         // 对需求的循环
         // 循环导出
@@ -221,7 +221,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
                 if (item != null) {
                     String name = item.getItemName();
                     String description = item.getItemDescription() == null ? "" : item.getItemDescription();
-                    exportData.put("item_" + (i % pageNum + 1), name + "\n" + description);
+                    exportData.put("item_" + (i % pageNum + 1), name + " " + description);
                 }
                 Unit unit = unitMap.get(demand.getUnitId());
                 if (unit != null) {

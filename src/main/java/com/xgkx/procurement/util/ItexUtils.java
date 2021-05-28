@@ -40,7 +40,7 @@ public class ItexUtils {
         // 获取导出文件路径
         String exportFileUrl = getExportFileUrlFromTemplateUrl(templateUrl) + File.separator + exportFileName + ".pdf";
         if (new File(exportFileUrl).exists()) {
-            return exportFileUrl;
+            new File(exportFileUrl).delete();
         }
         PdfReader reader;
         FileOutputStream out;
@@ -111,7 +111,7 @@ public class ItexUtils {
         // 创建文件
         File exportFile = new File(exportFilePath);
         if (exportFile.exists()) {
-            return exportFilePath;
+            exportFile.delete();
         }
         exportFile.createNewFile();
         FileOutputStream os = null;
