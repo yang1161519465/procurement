@@ -243,4 +243,19 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             return filePaths.get(0);
         }
     }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public R giveDemand (Integer demandId) {
+        Demand demand = this.getById(demandId);
+        if (demand == null) {
+            return R.error("需求不存在，请联系管理员");
+        }
+        if (demand.getIsMeet()) {
+            return R.error("请不要重复点击");
+        }
+        demand.setIsMeet(true);
+        this.updateById(demand);
+        return R.ok();
+    }
 }

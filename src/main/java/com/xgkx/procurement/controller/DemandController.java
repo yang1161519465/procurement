@@ -162,6 +162,17 @@ public class DemandController extends BaseController<Demand, Integer, DemandServ
         return service.deleteDemand(demandId);
     }
 
+    @ApiOperation(value = "给予需求", notes = "给予需求", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "需求管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    @PostMapping("/giveDemand")
+    public R giveDemand(@RequestParam Integer demandId) {
+        if (demandId == null) {
+            return R.error(Msg.PARAMETER_NULL_MSG);
+        }
+        return service.giveDemand(demandId);
+    }
+
     @ApiOperation(value = "导出我所在组织的指定批次的需求", notes = "导出我所在组织的指定批次的需求", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE, tags = "需求管理接口")
     @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")

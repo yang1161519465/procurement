@@ -107,4 +107,14 @@ public interface DemandService extends IService<Demand> {
      * @return java.lang.String
      **/
     String exprotPdf (Integer bathId, JSONObject data, String currentUserId) throws IOException;
+
+    /**
+     * 给予需求
+     *
+     * @author 杨旭晨
+     * @date 20:41 2021/6/2
+     * @param demandId: 需求id
+     * @return com.xgkx.procurement.common.entity.R
+     **/
+    R giveDemand (Integer demandId);
 }
