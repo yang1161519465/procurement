@@ -66,9 +66,10 @@ public interface UserSerivce extends IService<User> {
      * @date 17:45 2021/5/9
      * @param oldPassword: 旧密码
      * @param newPassword: 新密码
+     * @param userId: 用户id
      * @return com.xgkx.procurement.common.entity.R
      **/
-    R changePassword(String oldPassword, String newPassword);
+    R changePassword(String oldPassword, String newPassword, String userId);
 
     /**
      * 用户修改个人信息
@@ -93,7 +94,18 @@ public interface UserSerivce extends IService<User> {
      * @author 杨旭晨
      * @date 18:40 2021/5/9
      * @param user: 要修改的用户信息
+     * @param userId: 用户id
      * @return com.xgkx.procurement.common.entity.R
      **/
-    R updaetUser(User user);
+    R updaetUser(User user, String userId);
+
+    /**
+     * 删除用户
+     *
+     * @author 杨旭晨
+     * @date 15:41 2021/6/3
+     * @param userId: 用户id
+     * @return com.xgkx.procurement.common.entity.R
+     **/
+    R deleteUser (String userId);
 }

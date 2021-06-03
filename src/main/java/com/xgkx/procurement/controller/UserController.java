@@ -99,7 +99,7 @@ public class UserController extends BaseController<User, String, UserSerivce> {
         if (StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword)) {
             return R.error(Msg.PARAMETER_NULL_MSG);
         }
-        return service.changePassword(oldPassword, newPassword);
+        return service.changePassword(oldPassword, newPassword, getCurrentUserId());
     }
 
     @ApiOperation(value = "修改个人信息", notes = "修改个人信息，组织机构不可以修改，不修改密码，登录名不可以修改", consumes =
@@ -130,7 +130,18 @@ public class UserController extends BaseController<User, String, UserSerivce> {
         if (!checkResult.isEmpty()) {
             return R.error(StringUtils.listToString(checkResult, "\n"));
         }
-        return service.updaetUser(user);
+        return service.updaetUser(user, getCurrentUserId());
+    }
+
+    @ApiOperation(value = "删除用户", notes = "删除用户，假删除", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "用户管理接口")
+    @PostMapping("deleteUser")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN')")
+    public R deleteUser(@RequestParam String userId) {
+        if (userId == null) {
+            return R.error(Msg.PARAMETER_NULL_MSG);
+        }
+        return service.deleteUser(userId);
     }
 
     /**

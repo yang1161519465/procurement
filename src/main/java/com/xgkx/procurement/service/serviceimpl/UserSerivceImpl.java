@@ -107,25 +107,54 @@ public class UserSerivceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R resetUserPassword(String userId, String newPassword) {
-        return null;
+        User user = this.getById(userId);
+        user.setPasswordMd5(MD5Utils.getMD5Str(newPassword));
+        this.save(user);
+        return R.ok();
     }
 
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public R changePassword(String oldPassword, String newPassword) {
-        return null;
+    public R changePassword(String oldPassword, String newPassword, String userId) {
+        User user = this.getById(userId);
+        // 判断旧密码是否符合
+        if (!user.getPasswordMd5().equals(MD5Utils.getMD5Str(oldPassword))) {
+            // 不符合
+            return R.error("密码输入错误，请重新输入");
+        }
+        user.setPasswordMd5(MD5Utils.getMD5Str(newPassword));
+        this.save(user);
+        return R.ok();
     }
 
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R changeUserInfo(User user, String userId) {
-        return null;
+        User oldUser = this.getById(userId);
+        user.setPasswordMd5(oldUser.getPasswordMd5());
+        user.setLoginName(oldUser.getLoginName());
+        user.setUserId(userId);
+        user.setOrgId(oldUser.getOrgId());
+        this.updateById(user);
+        return R.ok();
     }
 
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public R updaetUser(User user) {
-        return null;
+    public R updaetUser(User user, String userId) {
+        User oldUser = this.getById(userId);
+        user.setPasswordMd5(oldUser.getPasswordMd5());
+        user.setLoginName(oldUser.getLoginName());
+        user.setUserId(userId);
+        this.updateById(user);
+        return R.ok();
+    }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public R deleteUser (String userId) {
+        this.removeById(userId);
+        return R.ok();
     }
 
 }
