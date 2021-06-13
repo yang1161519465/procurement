@@ -24,7 +24,9 @@ import java.math.BigDecimal;
 @Transactional(readOnly = true)
 @Slf4j
 public class ProcurementServiceImpl extends ServiceImpl<ProcurementMapper, Procurement> implements ProcurementService {
+
     @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public R purchaseItems (Procurement procurement) {
         if (procurement.getProTime() == null) {
             procurement.setProTime(DateTimeUtils.getCurrentLocalDateTime());
