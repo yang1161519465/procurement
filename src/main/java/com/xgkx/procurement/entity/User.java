@@ -112,10 +112,10 @@ public class User extends BaseEntity implements Serializable {
     /**
      * 删除标记  0：未删除  1：已删除
      */
-    @ApiModelProperty(value = "删除标记  0：未删除  1：已删除")
-    @TableField("delete_tag")
-    @GenerateWrapperType(value = GenerateWrapperType.Type.DEFAULT, defaultValue = false)
-    private Boolean deleteTag;
+//    @ApiModelProperty(value = "删除标记  0：未删除  1：已删除")
+//    @TableField("delete_tag")
+//    @GenerateWrapperType(value = GenerateWrapperType.Type.DEFAULT, defaultValue = false)
+//    private Boolean deleteTag;
 
     private static final long serialVersionUID = 1L;
 }

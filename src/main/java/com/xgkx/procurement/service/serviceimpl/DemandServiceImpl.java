@@ -85,13 +85,17 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
     }
 
     @Override
-    public Bath statisticsByBathId(Integer bathId) {
+    public Bath statisticsByBathId(Integer bathId, Integer orgId) {
         // 获取批次信息
         Bath bath = bathService.getById(bathId);
         // 获取本批次的所有需求
         Demand queryParams = new Demand();
         queryParams.setBathId(bathId);
         List<Demand> demandList = baseMapper.getList(queryParams);
+        if (orgId != null) {
+            // 如果orgId不为空，根据orgId过滤掉其他组织的需求
+            demandList = demandList.stream().filter(item -> item.getOrgId().equals(orgId)).collect(Collectors.toList());
+        }
         Map<String, Demand> result = new HashMap<>();
         for (Demand demand : demandList) {
             // 获取key

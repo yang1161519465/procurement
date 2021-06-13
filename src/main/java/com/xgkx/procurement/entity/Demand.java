@@ -86,6 +86,9 @@ public class Demand extends BaseEntity implements Serializable {
     @TableField(exist = false)
     private String unitName;
 
+    @TableField(exist = false)
+    private String itemDescription;
+
     /**
      * 组织结构名称
      */

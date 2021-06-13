@@ -120,15 +120,15 @@ public class DemandController extends BaseController<Demand, Integer, DemandServ
         }
     }
 
-    @ApiOperation(value = "根据批次id获取该批次的统计", notes = "根据批次id获取该批次的统计", consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE, tags = "需求管理接口")
+    @ApiOperation(value = "根据批次id获取该批次的统计", notes = "根据批次id获取该批次的统计，可以根据不同的组织机构分别统计", consumes =
+            MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, tags = "需求管理接口")
     @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
     @GetMapping("/statisticsByBathId")
-    public R statisticsByBathId(@RequestParam Integer bathId) {
+    public R statisticsByBathId(@RequestParam Integer bathId, @RequestParam(required = false) Integer orgId) {
         if (bathId == null) {
             return R.error(Msg.PARAMETER_NULL_MSG);
         }
-        Bath result = service.statisticsByBathId(bathId);
+        Bath result = service.statisticsByBathId(bathId, orgId);
         return R.ok().put("data", result);
     }
 

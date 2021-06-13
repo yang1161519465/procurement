@@ -58,10 +58,11 @@ public interface DemandService extends IService<Demand> {
      *
      * @author 杨旭晨
      * @date 10:43 2021/5/3
-     * @param bathId:
+     * @param bathId: 批次id
+     * @param orgId: 组织机构id
      * @return com.xgkx.procurement.entity.Bath
      **/
-    Bath statisticsByBathId(Integer bathId);
+    Bath statisticsByBathId(Integer bathId, Integer orgId);
 
     /**
      * 根据批次id获取列表
