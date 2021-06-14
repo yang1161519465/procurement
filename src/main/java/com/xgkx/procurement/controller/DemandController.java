@@ -70,15 +70,16 @@ public class DemandController extends BaseController<Demand, Integer, DemandServ
             produces = MediaType.APPLICATION_JSON_VALUE, tags = "需求管理接口")
     @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
     @GetMapping("/getMyOrgDemandList")
-    public R getMyOrgDemandList(@RequestParam(required = false) Integer pageSize,
+    public R getMyOrgDemandList(@RequestParam(required = false) Integer bathId,
+                                @RequestParam(required = false) Integer pageSize,
                                 @RequestParam(required = false) Integer pageNum) {
         if (pageSize == null || pageNum == null) {
             // 获取全部
-            return R.ok().put("data", service.getMyOrgDemandList(getCurrentUserId()));
+            return R.ok().put("data", service.getMyOrgDemandList(getCurrentUserId(), bathId));
         } else {
             // 分页获取
             PageHelper.startPage(pageNum, pageSize);
-            List<Demand> demandList = service.getMyOrgDemandList(getCurrentUserId());
+            List<Demand> demandList = service.getMyOrgDemandList(getCurrentUserId(), bathId);
             PageInfo<Demand> result = new PageInfo<>(demandList);
             return R.ok().put("data", result);
         }

@@ -37,11 +37,10 @@ public interface DemandService extends IService<Demand> {
      * @author 杨旭晨
      * @date 15:24 2021/4/29
      * @param currentUserId :
-     * @param pageSize
-     * @param pageNum
+     * @param bathId: 批次id
      * @return java.util.List<com.xgkx.procurement.entity.Demand>
      **/
-    List<Demand> getMyOrgDemandList(String currentUserId);
+    List<Demand> getMyOrgDemandList(String currentUserId, Integer bathId);
 
     /**
      * 根据条件查询，拼接名称

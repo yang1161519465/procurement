@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,7 +44,10 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
     @Autowired
     private UnitService unitService;
     @Autowired
+    private ProcurementService procurementService;
+    @Autowired
     private FilePathPropreties filePathPropreties;
+
 
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -62,8 +66,30 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
     }
 
     @Override
-    public List<Demand> getMyOrgDemandList(String currentUserId) {
+    public List<Demand> getMyOrgDemandList(String currentUserId, Integer bathId) {
 //        User user = userSerivce.getById(currentUserId);
+        List<Demand> demandList = baseMapper.getMyOrgDemandList(currentUserId);
+        // 获取单价
+        if (bathId != null) {
+            // 只有一个批次的
+            // 查询批次的购买信息
+            List<Procurement> procurementList = procurementService.getListByBathId(bathId);
+            // Map<物品id-单位id, 采购>
+            Map<String, Procurement> proMap = procurementList.stream().collect(Collectors.toMap(item -> item.getItemId() + "-" + item.getUnitId(),
+                    item -> item));
+            for (Demand demand : demandList) {
+                String key = demand.getItemId() + "-" + demand.getUnitId();
+                // 设置单价与总价
+                if (proMap.containsKey(key)) {
+                    Procurement procurement = proMap.get(key);
+                    // 单价
+                    demand.setPrice(procurement.getPrice());
+                    // 计算总价
+                    BigDecimal totalPrice = procurement.getPrice().multiply(BigDecimal.valueOf(demand.getCount()));
+                    demand.setTotalPrice(totalPrice);
+                }
+            }
+        }
         return baseMapper.getMyOrgDemandList(currentUserId);
     }
 

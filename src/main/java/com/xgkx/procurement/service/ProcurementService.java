@@ -37,4 +37,15 @@ public interface ProcurementService extends IService<Procurement> {
      * @return java.util.List<com.xgkx.procurement.entity.Procurement>
      **/
     List<Procurement> getProList (Procurement procurement);
+
+    /**
+     * 根据批次id，获取采购列表
+     *
+     * @author 杨旭晨
+     * @date 16:04 2021/6/14
+     * @param bathId: 批次id
+     * @return java.util.List<com.xgkx.procurement.entity.Procurement>
+     **/
+    List<Procurement> getListByBathId (Integer bathId);
+
 }

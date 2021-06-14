@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * b_demand  需求表
@@ -86,6 +87,9 @@ public class Demand extends BaseEntity implements Serializable {
     @TableField(exist = false)
     private String unitName;
 
+    /**
+     * 物品描述
+     */
     @TableField(exist = false)
     private String itemDescription;
 
@@ -94,6 +98,20 @@ public class Demand extends BaseEntity implements Serializable {
      */
     @TableField(exist = false)
     private String orgName;
+
+    /**
+     * 单价
+     */
+    @ApiModelProperty(value="单价")
+    @TableField(exist = false)
+    private BigDecimal price;
+
+    /**
+     * 总价
+     */
+    @ApiModelProperty(value="总价")
+    @TableField(exist = false)
+    private BigDecimal totalPrice;
 
     private static final long serialVersionUID = 1L;
 }
