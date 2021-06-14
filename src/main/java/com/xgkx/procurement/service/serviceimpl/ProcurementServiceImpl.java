@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author 杨旭晨
@@ -33,5 +34,10 @@ public class ProcurementServiceImpl extends ServiceImpl<ProcurementMapper, Procu
         }
         procurement.setCost(procurement.getPrice().multiply(BigDecimal.valueOf(procurement.getCount())));
         return save(procurement) ? R.ok().put("data", procurement) : R.error();
+    }
+
+    @Override
+    public List<Procurement> getProList (Procurement procurement) {
+        return baseMapper.getProList(procurement);
     }
 }

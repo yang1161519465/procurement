@@ -75,6 +75,15 @@ public class OrgController extends BaseController<Org, Integer, OrgServiceImpl> 
         return service.deleteOrg(orgId);
     }
 
+    @ApiOperation(value = "获取组织机构列表", notes = "获取组织机构列表", consumes =
+            MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, tags = "组织管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    @GetMapping("/getOrgList")
+    public R getOrgList() {
+        List<Org> orgList = service.list();
+        return R.ok().put("data", orgList);
+    }
+
     /**
      * 检查组织机构参数完整性
      *

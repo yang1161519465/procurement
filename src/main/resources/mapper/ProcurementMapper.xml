@@ -22,4 +22,40 @@
     create_by, create_time, update_by, update_time
   </sql>
 
+  <select id="getProList" resultMap="BaseResultMap" parameterType="com.xgkx.procurement.entity.Procurement">
+    select
+        bp.pro_id,
+        bp.pro_time,
+        bp.org_id,
+        bp.item_id,
+        bp.unit_id,
+        bp.price,
+        bp.bath_id,
+        bp.count,
+        bi.item_name,
+        bi.item_description,
+        bu.unit_name
+    from
+        b_procurement bp
+    left join
+        b_unit bu
+    on
+        bu.unit_id = bp.unit_id
+    left join
+        b_item bi
+    on
+        bi.item_id = bp.item_id
+    <where>
+      <if test="orgId != null">
+        and bp.org_id = #{orgId}
+      </if>
+      <if test="orgId != null">
+        and bp.org_id = #{orgId}
+      </if>
+      <if test="bathId != null">
+        and bp.bath_id = #{bathId}
+      </if>
+    </where>
+  </select>
+
 </mapper>

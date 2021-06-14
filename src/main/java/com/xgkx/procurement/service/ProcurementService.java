@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.entity.Procurement;
 
+import java.util.List;
+
 /**
  * 采购  业务逻辑层
  *
@@ -25,4 +27,14 @@ public interface ProcurementService extends IService<Procurement> {
      * @return com.xgkx.procurement.common.entity.R
      **/
     R purchaseItems (Procurement procurement);
+
+    /**
+     * 按照条件查找采购列表
+     *
+     * @author 杨旭晨
+     * @date 15:49 2021/6/13
+     * @param procurement: 查询条件
+     * @return java.util.List<com.xgkx.procurement.entity.Procurement>
+     **/
+    List<Procurement> getProList (Procurement procurement);
 }

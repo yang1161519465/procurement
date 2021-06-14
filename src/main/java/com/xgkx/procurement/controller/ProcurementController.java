@@ -1,5 +1,7 @@
 package com.xgkx.procurement.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xgkx.procurement.common.controller.BaseController;
 import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.constant.Msg;
@@ -14,10 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +56,40 @@ public class ProcurementController extends BaseController<Procurement, Integer, 
         procurement.setCreateBy(getCurrentUserLoginName());
         procurement.setOrgId(user.getOrgId());
         return service.purchaseItems(procurement);
+    }
+
+    @ApiOperation(value = "获取采购的列表", notes = "获取采购的列表", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "采购管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN')")
+    @PostMapping("/getProList")
+    public R getProList(@RequestBody(required = false) Procurement procurement,
+                        @RequestParam(required = false) Integer pageSize,
+                        @RequestParam(required = false) Integer pageNum) {
+        if (procurement == null) {
+            // 查询全部
+            if (pageSize != null && pageNum != null && pageSize > 0 && pageNum > 0) {
+                // 分页查询
+                PageHelper.startPage(pageNum, pageSize);
+                List<Procurement> list = service.getProList(new Procurement());
+                PageInfo<Procurement> result = new PageInfo<>(list);
+                return R.ok().put("data", result);
+            } else {
+                List<Procurement> list = service.getProList(new Procurement());
+                return R.ok().put("data", list);
+            }
+        } else {
+            // 按照条件查询
+            if (pageSize != null && pageNum != null && pageSize > 0 && pageNum > 0) {
+                // 分页查询
+                PageHelper.startPage(pageNum, pageSize);
+                List<Procurement> list = service.getProList(procurement);
+                PageInfo<Procurement> result = new PageInfo<>(list);
+                return R.ok().put("data", result);
+            } else {
+                List<Procurement> list = service.getProList(procurement);
+                return R.ok().put("data", list);
+            }
+        }
     }
 
     /**

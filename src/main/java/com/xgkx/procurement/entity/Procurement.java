@@ -8,11 +8,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.xgkx.procurement.common.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
-import lombok.Data;
 
 /**
  * b_procurement  采购表
@@ -66,6 +66,13 @@ public class Procurement extends BaseEntity implements Serializable {
     private BigDecimal price;
 
     /**
+     * 批次id
+     */
+    @ApiModelProperty(value = "批次id")
+    @TableField("bath_id")
+    private Integer bathId;
+
+    /**
      * 采购数量
      */
     @ApiModelProperty(value="采购数量")
@@ -92,6 +99,27 @@ public class Procurement extends BaseEntity implements Serializable {
     @ApiModelProperty(value="总花费")
     @TableField("cost")
     private BigDecimal cost;
+
+    /**
+     * 物品名称
+     */
+    @ApiModelProperty(value = "物品名称")
+    @TableField(exist = false)
+    private String itemName;
+
+    /**
+     * 物品描述
+     */
+    @ApiModelProperty(value = "物品描述")
+    @TableField(exist = false)
+    private String itemDescription;
+
+    /**
+     * 单位名称
+     */
+    @ApiModelProperty(value = "单位名称")
+    @TableField(exist = false)
+    private String unitName;
 
     private static final long serialVersionUID = 1L;
 }

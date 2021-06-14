@@ -52,4 +52,5 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, Org> implements OrgSe
     public R deleteOrg(Integer orgId) {
         return null;
     }
+
 }

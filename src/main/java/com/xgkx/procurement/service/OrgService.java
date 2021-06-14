@@ -60,4 +60,5 @@ public interface OrgService extends IService<Org> {
      * @return com.xgkx.procurement.common.entity.R
      **/
     R deleteOrg(Integer orgId);
+
 }
