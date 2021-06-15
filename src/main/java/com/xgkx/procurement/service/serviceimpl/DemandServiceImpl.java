@@ -254,6 +254,9 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             if (data.getString("source") != null) {
                 exportData.put("source", data.getString("source"));
             }
+            // 时间
+            String time = DateTimeUtils.getCurrentDateTimeStr();
+            exportData.put("time", time);
             // 办公用品内容：
             for (; i < demandList.size(); i++) {
                 Demand demand = demandList.get(i);
