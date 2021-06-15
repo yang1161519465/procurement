@@ -61,6 +61,20 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             // 批次已经结束
             return R.error("批次已经结束，请等待下一批");
         }
+        // 查看在当前批次中，是否已经提交这个需求，如果已经存在，则数量相加
+        QueryWrapper<Demand> wrapper = new QueryWrapper<>();
+        wrapper.eq("org_id", demand.getOrgId())
+                .eq("item_id", demand.getItemId())
+                .eq("unit_id", demand.getUnitId())
+                .eq("bath_id", demand.getBathId());
+        Integer count = baseMapper.selectCount(wrapper);
+        if (count > 0) {
+            // 已经存在
+            Demand demand1 = baseMapper.selectOne(wrapper);
+            demand1.setCount(demand1.getCount() + demand.getCount());
+            updateById(demand1);
+            return R.ok().put("data", demand1);
+        }
         save(demand);
         return R.ok().put("data", demand);
     }
@@ -151,7 +165,10 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             if (proMap.containsKey(key)) {
                 demand.setIsBuy(false);
             } else {
+                // 没有购买
                 demand.setIsBuy(true);
+                // 查询是否有历史记录
+
             }
         }
         bath.setDemandList(result.values());
@@ -304,4 +321,6 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         this.updateById(demand);
         return R.ok();
     }
+
+
 }

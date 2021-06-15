@@ -109,7 +109,7 @@ public class UserSerivceImpl extends ServiceImpl<UserMapper, User> implements Us
     public R resetUserPassword(String userId, String newPassword) {
         User user = this.getById(userId);
         user.setPasswordMd5(MD5Utils.getMD5Str(newPassword));
-        this.save(user);
+        this.updateById(user);
         return R.ok();
     }
 

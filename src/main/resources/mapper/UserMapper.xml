@@ -48,10 +48,10 @@
         and su.org_id = #{orgId}
       </if>
       <if test="phoneNum != null and phoneNum != ''">
-        and su.phone_num like cancat('%', #{phoneNum}, '%')
+        and su.phone_num like concat('%', #{phoneNum}, '%')
       </if>
       <if test="email != null and email != ''">
-        and su.email like cancat('%', #{email}, '%')
+        and su.email like concat('%', #{email}, '%')
       </if>
     </where>
   </select>
