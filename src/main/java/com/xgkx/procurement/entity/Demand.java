@@ -113,5 +113,12 @@ public class Demand extends BaseEntity implements Serializable {
     @TableField(exist = false)
     private BigDecimal totalPrice;
 
+    /**
+     * 是否可以购买
+     */
+    @ApiModelProperty(value="是否可以购买")
+    @TableField(exist = false)
+    private Boolean isBuy;
+
     private static final long serialVersionUID = 1L;
 }

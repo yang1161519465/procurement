@@ -92,6 +92,36 @@ public class ProcurementController extends BaseController<Procurement, Integer, 
         }
     }
 
+    @ApiOperation(value = "修改采购物品", notes = "修改采购物品", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "采购管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    @PostMapping("/updatePro")
+    public R updatePro(@RequestBody Procurement procurement) {
+        if (procurement == null) {
+            return R.error(Msg.PARAMETER_NULL_MSG);
+        }
+        List<String> checkList = checkProcurement(procurement);
+        if (!checkList.isEmpty()) {
+            return R.error(StringUtils.listToString(checkList, "\n"));
+        }
+        return service.updatePro(procurement);
+    }
+
+//    @ApiOperation(value = "", notes = "修改采购物品", consumes = MediaType.APPLICATION_JSON_VALUE,
+//            produces = MediaType.APPLICATION_JSON_VALUE, tags = "采购管理接口")
+//    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+//    @PostMapping("/updatePro")
+//    public R updatePro(@RequestBody Procurement procurement) {
+//        if (procurement == null) {
+//            return R.error(Msg.PARAMETER_NULL_MSG);
+//        }
+//        List<String> checkList = checkProcurement(procurement);
+//        if (!checkList.isEmpty()) {
+//            return R.error(StringUtils.listToString(checkList, "\n"));
+//        }
+//        return service.updatePro(procurement);
+//    }
+
     /**
      * 检查采购对象数据完整性
      *

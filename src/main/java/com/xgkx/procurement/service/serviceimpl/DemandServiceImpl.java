@@ -68,7 +68,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
     @Override
     public List<Demand> getMyOrgDemandList(String currentUserId, Integer bathId) {
 //        User user = userSerivce.getById(currentUserId);
-        List<Demand> demandList = baseMapper.getMyOrgDemandList(currentUserId);
+        List<Demand> demandList = baseMapper.getMyOrgDemandList(currentUserId, bathId);
         // 获取单价
         if (bathId != null) {
             // 只有一个批次的
@@ -90,7 +90,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
                 }
             }
         }
-        return baseMapper.getMyOrgDemandList(currentUserId);
+        return demandList;
     }
 
     @Override
@@ -125,7 +125,8 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         Map<String, Demand> result = new HashMap<>();
         for (Demand demand : demandList) {
             // 获取key
-            String key = new StringBuilder().append(demand.getItemId()).append(demand.getUnitId()).toString();
+            String key =
+                    new StringBuilder().append(demand.getItemId()).append("-").append(demand.getUnitId()).toString();
             // 判断有没有
             if (result.containsKey(key)) {
                 // 存在，数量增加
@@ -139,6 +140,18 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
                 demand.setUpdateBy(null);
                 demand.setUpdateTime(null);
                 result.put(key, demand);
+            }
+        }
+        // 获取当前批次中的采购信息
+        List<Procurement> proList = procurementService.getListByBathId(bathId);
+        Map<String, Procurement> proMap = proList.stream()
+                .collect(Collectors.toMap(item -> item.getItemId() + "-" + item.getUnitId(), item -> item));
+        for (String key : result.keySet()) {
+            Demand demand = result.get(key);
+            if (proMap.containsKey(key)) {
+                demand.setIsBuy(false);
+            } else {
+                demand.setIsBuy(true);
             }
         }
         bath.setDemandList(result.values());

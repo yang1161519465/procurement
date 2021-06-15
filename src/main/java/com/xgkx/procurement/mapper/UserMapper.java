@@ -3,6 +3,8 @@ package com.xgkx.procurement.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xgkx.procurement.entity.User;
 
+import java.util.List;
+
 /**
  * 用户mapper
  *
@@ -24,4 +26,14 @@ public interface UserMapper extends BaseMapper<User> {
      * @return com.xgkx.procurement.entity.User
      **/
     User info (String currentUserId);
+
+    /**
+     * 查询用户列表
+     *
+     * @author 杨旭晨
+     * @date 10:30 2021/6/15
+     * @param user:
+     * @return java.util.List<com.xgkx.procurement.entity.User>
+     **/
+    List<User> getUserList (User user);
 }

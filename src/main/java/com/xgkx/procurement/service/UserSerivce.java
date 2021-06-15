@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.entity.User;
 
+import java.util.List;
+
 /**
  * 用户 业务逻辑层
  *
@@ -108,4 +110,14 @@ public interface UserSerivce extends IService<User> {
      * @return com.xgkx.procurement.common.entity.R
      **/
     R deleteUser (String userId);
+
+    /**
+     * 根据条件获取用户列表
+     *
+     * @author 杨旭晨
+     * @date 10:30 2021/6/15
+     * @param user: 查询条件
+     * @return java.util.List<com.xgkx.procurement.entity.User>
+     **/
+    List<User> getUserList (User user);
 }

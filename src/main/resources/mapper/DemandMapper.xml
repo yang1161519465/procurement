@@ -42,6 +42,7 @@
 	LEFT JOIN b_bath bb ON bb.bath_id = bd.bath_id
 	LEFT JOIN s_user su ON su.org_id = bd.org_id
     where su.user_id = #{userId}
+        and bd.bath_id = #{bathId}
     order by bd.create_time desc
   </select>
 

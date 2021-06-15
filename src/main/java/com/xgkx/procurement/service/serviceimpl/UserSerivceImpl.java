@@ -157,4 +157,9 @@ public class UserSerivceImpl extends ServiceImpl<UserMapper, User> implements Us
         return R.ok();
     }
 
+    @Override
+    public List<User> getUserList (User user) {
+        return baseMapper.getUserList(user);
+    }
+
 }

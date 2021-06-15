@@ -1,5 +1,7 @@
 package com.xgkx.procurement.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xgkx.procurement.common.controller.BaseController;
 import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.constant.Msg;
@@ -135,13 +137,49 @@ public class UserController extends BaseController<User, String, UserSerivce> {
 
     @ApiOperation(value = "删除用户", notes = "删除用户，假删除", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE, tags = "用户管理接口")
-    @PostMapping("deleteUser")
+    @DeleteMapping("deleteUser")
     @PreAuthorize("hasAnyRole('DEV', 'ADMIN')")
     public R deleteUser(@RequestParam String userId) {
         if (userId == null) {
             return R.error(Msg.PARAMETER_NULL_MSG);
         }
         return service.deleteUser(userId);
+    }
+
+    @ApiOperation(value = "获取用户列表", notes = "获取用户列表", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "用户管理接口")
+    @PostMapping("getUserList")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    public R getUserList(@RequestBody(required = false) User user,
+                         @RequestParam(required = false) Integer pageNum,
+                         @RequestParam(required = false) Integer pageSize) {
+        if (user == null) {
+            // 查询全部
+            if (pageSize != null && pageNum != null && pageNum > 0 && pageSize > 0) {
+                // 分页查询
+                PageHelper.startPage(pageNum, pageSize);
+                List<User> userList = service.getUserList(new User());
+                PageInfo<User> result = new PageInfo<>(userList);
+                return R.ok().put("data", result);
+            } else {
+                // 插叙全部
+                List<User> userList = service.getUserList(new User());
+                return R.ok().put("data", userList);
+            }
+        } else {
+            // 按照条件查询
+            if (pageSize != null && pageNum != null && pageNum > 0 && pageSize > 0) {
+                // 分页查询
+                PageHelper.startPage(pageNum, pageSize);
+                List<User> userList = service.getUserList(user);
+                PageInfo<User> result = new PageInfo<>(userList);
+                return R.ok().put("data", result);
+            } else {
+                // 插叙全部
+                List<User> userList = service.getUserList(user);
+                return R.ok().put("data", userList);
+            }
+        }
     }
 
     /**

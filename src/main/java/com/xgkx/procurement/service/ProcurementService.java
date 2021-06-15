@@ -48,4 +48,13 @@ public interface ProcurementService extends IService<Procurement> {
      **/
     List<Procurement> getListByBathId (Integer bathId);
 
+    /**
+     * 修改采购信息
+     *
+     * @author 杨旭晨
+     * @date 18:58 2021/6/14
+     * @param procurement:
+     * @return com.xgkx.procurement.common.entity.R
+     **/
+    R updatePro (Procurement procurement);
 }

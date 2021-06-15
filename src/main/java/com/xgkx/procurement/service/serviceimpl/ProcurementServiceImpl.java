@@ -48,4 +48,10 @@ public class ProcurementServiceImpl extends ServiceImpl<ProcurementMapper, Procu
         wrapper.eq("bath_id", bathId);
         return baseMapper.selectList(wrapper);
     }
+
+    @Override
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public R updatePro (Procurement procurement) {
+        return updateById(procurement) ? R.ok() : R.error();
+    }
 }
