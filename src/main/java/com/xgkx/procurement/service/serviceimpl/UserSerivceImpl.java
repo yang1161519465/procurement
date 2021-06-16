@@ -123,7 +123,7 @@ public class UserSerivceImpl extends ServiceImpl<UserMapper, User> implements Us
             return R.error("密码输入错误，请重新输入");
         }
         user.setPasswordMd5(MD5Utils.getMD5Str(newPassword));
-        this.save(user);
+        this.updateById(user);
         return R.ok();
     }
 
