@@ -56,7 +56,7 @@ public class MyAuthenticationFilter extends BasicAuthenticationFilter {
         response.setContentType("application/json;charset=UTF-8");
         String token = request.getHeader(Constant.TOKEN);
         String requestURI = request.getRequestURI();
-        log.info("访问接口" + requestURI);
+        log.trace("访问接口" + requestURI);
         if (isInWiteList(requestURI)) {
             // 白名单，放过
             chain.doFilter(request, response);

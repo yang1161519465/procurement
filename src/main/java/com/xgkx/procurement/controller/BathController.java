@@ -115,9 +115,20 @@ public class BathController extends BaseController<Bath, Integer, BathServiceImp
             List<Bath> bathList = service.getListByCategory(bath);
             return R.ok().put("data", bathList);
         }
+    }
 
-
-
+    @ApiOperation(value = "日志测试", notes = "日志测试",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "批次管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    @PostMapping("/logTest")
+    public R logTest() {
+        log.trace("运行时日志");
+        log.debug("debug日志");
+        log.info("info日志");
+        log.warn("warn日志");
+        log.error("error日志");
+        return R.ok();
     }
 
     /**

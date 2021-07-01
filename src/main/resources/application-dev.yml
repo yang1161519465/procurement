@@ -9,6 +9,11 @@ spring:
     time-zone: GMT+8
     data-format: yyyy-MM-dd HH:mm:ss
 
+# 日志相关配置
+logging:
+  level:
+    com.xgkx: debug
+
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*Mapper.xml  # 设置mapper路径
   typeAliasesPackage: com.xgkx.procurement.entity   # 设置实体类所在包
@@ -24,6 +29,8 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
+    # 不打印sql
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
 
 # 配置pageHelper分页插件的内容
 pagehelper:

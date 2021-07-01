@@ -9,6 +9,12 @@ spring:
     time-zone: GMT+8
     data-format: yyyy-MM-dd HH:mm:ss
 
+# 日志相关配置
+logging:
+  level:
+    com:
+      atguigu: info
+
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*Mapper.xml  # 设置mapper路径
   typeAliasesPackage: com.xgkx.procurement.entity   # 设置实体类所在包
