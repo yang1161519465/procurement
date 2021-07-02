@@ -176,6 +176,12 @@
             <artifactId>itextpdf</artifactId>
             <version>5.4.3</version>
         </dependency>
+        <!-- excel操作，导入，读取等 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>2.2.7</version>
+        </dependency>
     </dependencies>
 
     <build>

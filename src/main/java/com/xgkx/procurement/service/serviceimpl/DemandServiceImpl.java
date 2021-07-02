@@ -9,12 +9,14 @@ import com.xgkx.procurement.entity.*;
 import com.xgkx.procurement.mapper.DemandMapper;
 import com.xgkx.procurement.service.*;
 import com.xgkx.procurement.util.DateTimeUtils;
+import com.xgkx.procurement.util.ExcelUtil;
 import com.xgkx.procurement.util.ItexUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
@@ -159,7 +161,8 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         // 获取当前批次中的采购信息
         List<Procurement> proList = procurementService.getListByBathId(bathId);
         Map<String, Procurement> proMap = proList.stream()
-                .collect(Collectors.toMap(item -> item.getItemId() + "-" + item.getUnitId(), item -> item));
+                .collect(Collectors.toMap(item ->
+                        item.getItemId() + "-" + item.getUnitId(), item -> item));
         for (String key : result.keySet()) {
             Demand demand = result.get(key);
             if (proMap.containsKey(key)) {
@@ -171,6 +174,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
 
             }
         }
+
         bath.setDemandList(result.values());
         return bath;
     }
@@ -320,6 +324,44 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         demand.setIsMeet(true);
         this.updateById(demand);
         return R.ok();
+    }
+
+    @Override
+    public String exportDemandToExcel(Integer bathId, String currentUserId) throws IOException {
+        // 获取当前批次中所有的需求
+        Bath bath = statisticsByBathId(bathId, null);
+        List<Demand> demandList = new ArrayList<>(bath.getDemandList());
+        // 创建要导出的数据结构
+        // 表头
+        List<String> header = new ArrayList<>(Arrays.asList("物品名称", "数量", "单位", "单价"));
+        // 表数据
+        List<List<Object>> data = new ArrayList<>();
+        for (Demand demand : demandList) {
+            List<Object> obj = new ArrayList<>();
+            obj.add(demand.getItemName());
+            obj.add(demand.getCount());
+            obj.add(demand.getItemName());
+            obj.add(demand.getPrice());
+            data.add(obj);
+        }
+        // 创建导出文件
+        String exportTemplateFilePath = filePathPropreties.getExportTemplateFilePath();
+        String filePath =
+                exportTemplateFilePath + "demand-excel\\" +
+                        bath.getPathName() + DateTimeUtils.getCurrentDateStr() + ".xlsx";
+        File file = new File(filePath);
+        // 如果文件夹不存在，创建文件夹
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+        }
+        // 如果文件存在，删除
+        if (file.exists()) {
+            file.delete();
+        }
+        file.createNewFile();
+        // 导出
+        ExcelUtil.writeBySimple(filePath, data, header);
+        return filePath;
     }
 
 

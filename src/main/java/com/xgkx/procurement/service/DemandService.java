@@ -117,4 +117,17 @@ public interface DemandService extends IService<Demand> {
      * @return com.xgkx.procurement.common.entity.R
      **/
     R giveDemand (Integer demandId);
+
+    /**
+     * 导出当前批次的所有需求为excel
+     *
+     * @author 杨旭晨
+     * @date 2021/7/2 14:32
+     * @param bathId: 批次id
+     * @param currentUserId: 当前登陆者用户id
+     * @return java.lang.String
+    **/
+    String exportDemandToExcel(Integer bathId, String currentUserId) throws IOException;
+
+
 }

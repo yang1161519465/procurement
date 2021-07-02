@@ -191,6 +191,24 @@ public class DemandController extends BaseController<Demand, Integer, DemandServ
         return;
     }
 
+    @ApiOperation(value = "导出指定批次的所有需求为excel", notes = "导出指定批次的所有需求为excel", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "需求管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    @PostMapping("exportDemandToExcel")
+    public void exportDemandToExcel(@RequestParam Integer bathId, @RequestBody JSONObject data,
+                                    HttpServletResponse response) throws IOException {
+        if (bathId == null) {
+            throw new BussinessException(Msg.PARAMETER_NULL_MSG);
+        }
+        String fileUrl = service.exportDemandToExcel(bathId, getCurrentUserId());
+        if (fileUrl == "") {
+            return;
+        }
+        File file = new File(fileUrl);
+        ServletUtils.returnFile(response, file);
+        return;
+    }
+
     private List<String> checkDemand(Demand demand) {
         List<String> result = new ArrayList<>();
         if (demand == null) {
