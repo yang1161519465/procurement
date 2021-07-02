@@ -91,7 +91,19 @@ public class UnitController extends BaseController<Unit, Integer, UnitServiceImp
         return service.deleteItem(unitId);
     }
 
-    private List<String> checkUnit(Unit unit) {
+    @ApiOperation(value = "根据物品id获取单位列表", notes = "根据物品id获取单位列表",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE, tags = "单位管理接口")
+    @PreAuthorize("hasAnyRole('DEV', 'ADMIN', 'USER')")
+    @GetMapping("/getListByItemId")
+    public R getListByItemId(@RequestParam Integer itemId) {
+        if (itemId == null) {
+            return R.error(Msg.PARAMETER_NULL_MSG);
+        }
+        return R.ok().put("data", service.getListByItemId(itemId));
+    }
+
+        private List<String> checkUnit(Unit unit) {
         List<String> result = new ArrayList<>();
         if (unit == null) {
             result.add("参数不能为空");
