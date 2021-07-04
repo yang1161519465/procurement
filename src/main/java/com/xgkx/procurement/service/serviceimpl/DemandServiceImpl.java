@@ -340,7 +340,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             List<Object> obj = new ArrayList<>();
             obj.add(demand.getItemName());
             obj.add(demand.getCount());
-            obj.add(demand.getItemName());
+            obj.add(demand.getUnitName());
             obj.add(demand.getPrice());
             data.add(obj);
         }
