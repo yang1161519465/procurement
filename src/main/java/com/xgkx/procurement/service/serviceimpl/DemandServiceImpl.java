@@ -167,11 +167,17 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             Demand demand = result.get(key);
             if (proMap.containsKey(key)) {
                 demand.setIsBuy(false);
+                demand.setPrice(proMap.get(key).getCost());
             } else {
                 // 没有购买
                 demand.setIsBuy(true);
                 // 查询是否有历史记录
-
+                Procurement procurement = procurementService.getPurchaseRecords(demand.getItemId(),
+                        demand.getUnitId());
+                if (procurement != null) {
+                    // 有购买记录
+                    demand.setPrice(procurement.getCost());
+                }
             }
         }
 
@@ -333,7 +339,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         List<Demand> demandList = new ArrayList<>(bath.getDemandList());
         // 创建要导出的数据结构
         // 表头
-        List<String> header = new ArrayList<>(Arrays.asList("物品名称", "数量", "单位", "单价"));
+        List<String> header = new ArrayList<>(Arrays.asList("物品名称", "数量", "单位", "单价", "是否已经购买"));
         // 表数据
         List<List<Object>> data = new ArrayList<>();
         for (Demand demand : demandList) {
@@ -342,12 +348,13 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             obj.add(demand.getCount());
             obj.add(demand.getUnitName());
             obj.add(demand.getPrice());
+            obj.add(demand.getIsBuy() ? "否" : "是");
             data.add(obj);
         }
         // 创建导出文件
         String exportTemplateFilePath = filePathPropreties.getExportTemplateFilePath();
         String filePath =
-                exportTemplateFilePath + "demand-excel\\" +
+                exportTemplateFilePath + "demand-excel" + File.separator +
                         bath.getPathName() + DateTimeUtils.getCurrentDateStr() + ".xlsx";
         File file = new File(filePath);
         // 如果文件夹不存在，创建文件夹

@@ -54,4 +54,14 @@ public class ProcurementServiceImpl extends ServiceImpl<ProcurementMapper, Procu
     public R updatePro (Procurement procurement) {
         return updateById(procurement) ? R.ok() : R.error();
     }
+
+    @Override
+    public Procurement getPurchaseRecords(Integer itemId, Integer unitId) {
+        QueryWrapper<Procurement> wrapper = new QueryWrapper<>();
+        wrapper.eq("item_id", itemId)
+                .eq("unit_id", unitId);
+        wrapper.orderByDesc("pro_time");
+        wrapper.last("limit 1");
+        return baseMapper.selectOne(wrapper);
+    }
 }

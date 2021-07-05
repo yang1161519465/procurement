@@ -57,4 +57,15 @@ public interface ProcurementService extends IService<Procurement> {
      * @return com.xgkx.procurement.common.entity.R
      **/
     R updatePro (Procurement procurement);
+
+    /**
+     * 查找最近一次的购买记录
+     *
+     * @author 杨旭晨
+     * @date 2021/7/5 9:14
+     * @param itemId: 物品id
+     * @param unitId: 单位id
+     * @return com.xgkx.procurement.entity.Procurement
+    **/
+    Procurement getPurchaseRecords(Integer itemId, Integer unitId);
 }
