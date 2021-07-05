@@ -54,9 +54,9 @@
         </profile>
         <!--生产环境 -->
         <profile>
-            <id>pro</id>
+            <id>prod</id>
             <properties>
-                <spring.profiles.active>pro</spring.profiles.active>
+                <spring.profiles.active>prod</spring.profiles.active>
             </properties>
         </profile>
     </profiles>
