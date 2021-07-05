@@ -339,12 +339,14 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         List<Demand> demandList = new ArrayList<>(bath.getDemandList());
         // 创建要导出的数据结构
         // 表头
-        List<String> header = new ArrayList<>(Arrays.asList("物品名称", "数量", "单位", "单价", "是否已经购买"));
+        List<String> header = new ArrayList<>(Arrays.asList("物品名称", "描述", "数量", "单位", "单价", 
+                "是否已经购买"));
         // 表数据
         List<List<Object>> data = new ArrayList<>();
         for (Demand demand : demandList) {
             List<Object> obj = new ArrayList<>();
             obj.add(demand.getItemName());
+            obj.add(demand.getItemDescription());
             obj.add(demand.getCount());
             obj.add(demand.getUnitName());
             obj.add(demand.getPrice());
