@@ -7,6 +7,7 @@ import com.xgkx.procurement.constant.Msg;
 import com.xgkx.procurement.entity.MyUserDetrails;
 import com.xgkx.procurement.service.serviceimpl.UserSerivceImpl;
 import com.xgkx.procurement.util.JwtUtils;
+import com.xgkx.procurement.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -63,7 +64,7 @@ public class MyAuthenticationFilter extends BasicAuthenticationFilter {
             return;
         }
 
-        if (token == null) {
+        if (StringUtils.isEmpty(token)) {
             // token为空
             returnMsg(response, R.error(HttpStatus.UNAUTHORIZED.value(), Msg.UN_AUTHENTICATE));
             return;
@@ -84,7 +85,8 @@ public class MyAuthenticationFilter extends BasicAuthenticationFilter {
         }
         MyUserDetrails userDetails = userSerivce.loadUserByUsername(userName);
         //生成生物认证
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(request, response);

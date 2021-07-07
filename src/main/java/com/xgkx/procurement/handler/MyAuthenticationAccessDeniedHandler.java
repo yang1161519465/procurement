@@ -3,7 +3,7 @@ package com.xgkx.procurement.handler;
 import com.alibaba.fastjson.JSON;
 import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.constant.Msg;
-import org.apache.http.entity.ContentType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -24,6 +24,7 @@ import java.io.IOException;
  * @history <author>     <time>      <version>       <desc>
  * 作者名       修改时间       版本号           描述
  **/
+@Slf4j
 @Component
 public class MyAuthenticationAccessDeniedHandler implements AccessDeniedHandler {
 
@@ -41,6 +42,7 @@ public class MyAuthenticationAccessDeniedHandler implements AccessDeniedHandler 
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
         String result  =
                 JSON.toJSONString(R.error(HttpStatus.UNAUTHORIZED.value(), Msg.NO_AUTHORITY));
+        log.debug("用户没有权限");
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(result);
