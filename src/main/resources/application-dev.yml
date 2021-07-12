@@ -60,5 +60,5 @@ jwt:
 
 # 文件目录
 file:
-  exportTemplateFilePath: c:\\data\\
+  exportTemplateFilePath: c:\\data\\procurement
 

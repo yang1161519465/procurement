@@ -129,5 +129,24 @@ public interface DemandService extends IService<Demand> {
     **/
     String exportDemandToExcel(Integer bathId, String currentUserId) throws IOException;
 
+    /**
+     * 判断物品是否在指定批次中使用
+     *
+     * @author 杨旭晨
+     * @date 2021/7/8 17:29
+     * @param itemId: 物品id
+     * @param bathIds: 批次id
+     * @return void
+    **/
+    boolean isUseItemInBaths(Integer itemId, List<Integer> bathIds);
 
+    /**
+     * 判断在需求中是否使用过物品
+     *
+     * @author 杨旭晨
+     * @date 2021/7/8 17:33
+     * @param itemId: 物品id
+     * @return boolean
+    **/
+    boolean isUseItem(Integer itemId);
 }

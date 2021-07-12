@@ -1,5 +1,6 @@
 package com.xgkx.procurement.service.serviceimpl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xgkx.procurement.common.entity.R;
 import com.xgkx.procurement.const_enum.BathStatusEnum;
@@ -83,6 +84,15 @@ public class BathServiceImpl extends ServiceImpl<BathMapper, Bath> implements Ba
             setBathStatus(item);
         }
         return bathList;
+    }
+
+    @Override
+    public List<Bath> getNowBath() {
+        QueryWrapper<Bath> wrapper = new QueryWrapper<>();
+        wrapper.gt("report_start_time", DateTimeUtils.getCurrentLocalDateTime())
+                .lt("report_stop_time", DateTimeUtils.getCurrentLocalDateTime());
+        List<Bath> baths = baseMapper.selectList(wrapper);
+        return baths;
     }
 
     private void setBathStatus(Bath bath) {

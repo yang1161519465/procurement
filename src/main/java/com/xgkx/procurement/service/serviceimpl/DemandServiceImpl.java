@@ -373,5 +373,23 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         return filePath;
     }
 
+    @Override
+    public boolean isUseItemInBaths(Integer itemId, List<Integer> bathIds) {
+        if (bathIds == null || bathIds.isEmpty()) {
+            return false;
+        }
+        QueryWrapper<Demand> wrapper = new QueryWrapper<>();
+        wrapper.eq("item_id", itemId)
+                .in("bath_id", bathIds);
+        return baseMapper.selectCount(wrapper) > 0;
+    }
+
+    @Override
+    public boolean isUseItem(Integer itemId) {
+        QueryWrapper<Demand> wrapper = new QueryWrapper<>();
+        wrapper.eq("item_id", itemId);
+        return baseMapper.selectCount(wrapper) > 0;
+    }
+
 
 }

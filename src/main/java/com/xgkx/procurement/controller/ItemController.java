@@ -114,6 +114,9 @@ public class ItemController extends BaseController<Item, Integer, ItemServiceImp
         if (!checkResult.isEmpty()) {
             return R.error(StringUtils.listToString(checkResult, "\n"));
         }
+        if (item.getItemId() == null) {
+            return R.error("物品id为空");
+        }
         item.setUpdateBy(getCurrentUserLoginName());
         return service.updateItem(item);
     }

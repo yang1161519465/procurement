@@ -58,4 +58,13 @@ public interface BathService extends IService<Bath> {
      * @return java.util.List<com.xgkx.procurement.entity.Bath>
      **/
     List<Bath> getListByCategory (Bath bath);
+
+    /**
+     * 获取正在进行中的批次信息
+     *
+     * @author 杨旭晨
+     * @date 2021/7/8 17:24
+     * @return java.util.List<com.xgkx.procurement.entity.Bath>
+    **/
+    List<Bath> getNowBath();
 }

@@ -69,4 +69,24 @@ public interface UnitService extends IService<Unit> {
      * @return java.util.List<com.xgkx.procurement.entity.Unit>
      **/
     List<Unit> getListByIds (List<Integer> unitIdList);
+
+    /**
+     * 根据物品id，逻辑删除物品单位
+     *
+     * @author 杨旭晨
+     * @date 2021/7/8 17:36
+     * @param itemId:
+     * @return boolean
+    **/
+    boolean logicDeleteByItemId(Integer itemId);
+
+    /**
+     * 根据物品id，删除单位
+     *
+     * @author 杨旭晨
+     * @date 2021/7/8 17:40
+     * @param itemId: 物品id
+     * @return boolean
+    **/
+    boolean deleteUnitByItemId(Integer itemId);
 }

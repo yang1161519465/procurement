@@ -59,4 +59,22 @@ public class UnitServiceImpl extends ServiceImpl<UnitMapper, Unit> implements Un
         wrapper.in("unit_id", unitIdList);
         return baseMapper.selectList(wrapper);
     }
+
+    @Override
+    public boolean logicDeleteByItemId(Integer itemId) {
+        QueryWrapper<Unit> wrapper = new QueryWrapper<>();
+        wrapper.eq("item_id", itemId);
+        List<Unit> unitList = baseMapper.selectList(wrapper);
+        unitList.forEach(item -> item.setDeleteTag(true));
+        this.updateBatchById(unitList);
+        return true;
+    }
+
+    @Override
+    public boolean deleteUnitByItemId(Integer itemId) {
+        QueryWrapper<Unit> wrapper = new QueryWrapper<>();
+        wrapper.eq("item_id", itemId);
+        baseMapper.delete(wrapper);
+        return true;
+    }
 }
