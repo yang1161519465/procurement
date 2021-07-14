@@ -38,10 +38,10 @@ public class GlobalExceptionHandler {
     /**
      * 方法不支持异常处理
      *
-     * @author 杨旭晨
-     * @date 11:10 2021/5/3
      * @param e:
      * @return com.xgkx.procurement.common.entity.R
+     * @author 杨旭晨
+     * @date 11:10 2021/5/3
      **/
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public void HttpRequestMethodNotSupportedExceptionHandler(HttpServletRequest request,
@@ -50,13 +50,13 @@ public class GlobalExceptionHandler {
         e.printStackTrace();
         ServletUtils.renderString(response, R.error(HttpStatus.METHOD_NOT_ALLOWED.value(),
                 "本接口：" + ServletUtils.getRequest().getRequestURI() +
-                "；不支持" + e.getMethod()).toJSONString());
+                        "；不支持" + e.getMethod()).toJSONString());
     }
 
     @ExceptionHandler({SQLException.class})
-    public void  SQLExceptionHandler(HttpServletRequest request,
-                                     HttpServletResponse response,
-                                     SQLException e) {
+    public void SQLExceptionHandler(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    SQLException e) {
         e.printStackTrace();
         ServletUtils.renderString(response, R.error("sql语句异常" + e.getMessage()).toJSONString());
     }
@@ -64,14 +64,14 @@ public class GlobalExceptionHandler {
     /**
      * 处理业务逻辑异常
      *
-     * @author 杨旭晨
-     * @date 11:14 2021/5/3
      * @param e:
      * @return com.xgkx.procurement.common.entity.R
+     * @author 杨旭晨
+     * @date 11:14 2021/5/3
      **/
     @ExceptionHandler({BussinessException.class})
     public void BussinessExceptionHandler(HttpServletRequest request,
-                                       HttpServletResponse response,
+                                          HttpServletResponse response,
                                           BussinessException e) {
         e.printStackTrace();
         ServletUtils.renderString(response, R.error(e.getMsg()).toJSONString());
@@ -80,9 +80,9 @@ public class GlobalExceptionHandler {
     /**
      * 处理权限不够异常
      *
+     * @return void
      * @author 杨旭晨
      * @date 15:33 2021/5/23
-     * @return void
      **/
     @ExceptionHandler({AccessDeniedException.class})
     public void AccessDeniedExceptionHandler(HttpServletRequest request, HttpServletResponse response,
@@ -94,13 +94,14 @@ public class GlobalExceptionHandler {
 
     /**
      * 处理其他异常
+     *
      * @param req
      * @param e
      * @return
      */
-    @ExceptionHandler(value =Exception.class)
+    @ExceptionHandler(value = Exception.class)
     public void exceptionHandler(HttpServletRequest request,
-                                 HttpServletResponse response, Exception e){
+                                 HttpServletResponse response, Exception e) {
         e.printStackTrace();
         ServletUtils.renderString(response, R.error(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "未知错误：" + e.getMessage()).toJSONString());

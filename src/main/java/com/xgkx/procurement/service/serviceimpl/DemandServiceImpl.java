@@ -391,5 +391,23 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         return baseMapper.selectCount(wrapper) > 0;
     }
 
+    @Override
+    public boolean isUseUnit(Integer unitId) {
+        QueryWrapper<Demand> wrapper = new QueryWrapper<>();
+        wrapper.eq("unit_id", unitId);
+        return baseMapper.selectCount(wrapper) > 0;
+    }
+
+    @Override
+    public boolean isUseUnitInBaths(Integer unitId, List<Integer> bathIds) {
+        if(bathIds == null || bathIds.isEmpty()) {
+            return false;
+        }
+        QueryWrapper<Demand> wrapper = new QueryWrapper<>();
+        wrapper.eq("unit_id", unitId)
+                .in("bath_id", bathIds);
+        return baseMapper.selectCount(wrapper) > 0;
+    }
+
 
 }

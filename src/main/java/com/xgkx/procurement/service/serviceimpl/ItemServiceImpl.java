@@ -43,7 +43,7 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements It
     public List<Item> getListByCateId(Integer cateId) {
         QueryWrapper<Item> wrapper = new QueryWrapper<>();
         wrapper.eq("cate_id", cateId);
-        wrapper.eq("delete_flag", false);
+        wrapper.eq("delete_tag", false);
         return baseMapper.selectList(wrapper);
     }
 
@@ -51,7 +51,7 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements It
     public List<Item> getListByQueryString(String queryString) {
         QueryWrapper<Item> wrapper = new QueryWrapper<>();
         wrapper.like("item_name", queryString);
-        wrapper.eq("delete_flag", false);
+        wrapper.eq("delete_tag", false);
         return baseMapper.selectList(wrapper);
     }
 
@@ -93,6 +93,7 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements It
             if (demandService.isUseItemInBaths(itemId,
                     baths.stream().map(Bath::getBathId).collect(Collectors.toList()))) {
                 // 在正在进行的批次中使用过，不允许删除
+
                 return R.error( "该物品在当前批次中使用，不允许删除");
             }
         }

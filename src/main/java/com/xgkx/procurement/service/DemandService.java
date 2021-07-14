@@ -149,4 +149,25 @@ public interface DemandService extends IService<Demand> {
      * @return boolean
     **/
     boolean isUseItem(Integer itemId);
+
+    /**
+     * 判断单位时候在需求中使用过
+     *
+     * @author 杨旭晨
+     * @date 2021/7/14 16:31
+     * @param unitId: 单位id
+     * @return boolean
+    **/
+    boolean isUseUnit(Integer unitId);
+
+    /**
+     * 判断单位是否在指定批次中使用过
+     *
+     * @author 杨旭晨
+     * @date 2021/7/14 16:55
+     * @param unitId:
+     * @param bathIds:
+     * @return boolean
+    **/
+    boolean isUseUnitInBaths(Integer unitId, List<Integer> bathIds);
 }
