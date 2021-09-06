@@ -62,11 +62,13 @@
       bi.item_name,
       bi.item_description,
       bu.unit_name,
-      bb.path_name
+      bb.path_name,
+      so.org_name
     from b_demand bd
     LEFT JOIN b_item bi ON bi.item_id = bd.item_id
 	LEFT JOIN b_unit bu ON bu.unit_id = bd.unit_id
 	LEFT JOIN b_bath bb ON bb.bath_id = bd.bath_id
+    LEFT JOIN s_org so ON so.org_id = bd.org_id
     <where>
       <if test="demandId != null and demandId != ''">
         and bd.demand_id = #{demandId}

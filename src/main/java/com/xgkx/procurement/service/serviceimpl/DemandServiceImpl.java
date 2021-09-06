@@ -151,10 +151,10 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
                 result.put(key, item);
             } else {
                 // 不存在，添加新值
-                demand.setCreateBy(null);
-                demand.setCreateTime(null);
-                demand.setUpdateBy(null);
-                demand.setUpdateTime(null);
+//                demand.setCreateBy(null);
+//                demand.setCreateTime(null);
+//                demand.setUpdateBy(null);
+//                demand.setUpdateTime(null);
                 result.put(key, demand);
             }
         }
@@ -340,7 +340,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         // 创建要导出的数据结构
         // 表头
         List<String> header = new ArrayList<>(Arrays.asList("物品名称", "描述", "数量", "单位", "单价", 
-                "是否已经购买"));
+                "是否已经购买", "创建者", "组织", "批次"));
         // 表数据
         List<List<Object>> data = new ArrayList<>();
         for (Demand demand : demandList) {
@@ -351,6 +351,9 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             obj.add(demand.getUnitName());
             obj.add(demand.getPrice());
             obj.add(demand.getIsBuy() ? "否" : "是");
+            obj.add(demand.getCreateBy());
+            obj.add(demand.getOrgName());
+            obj.add(demand.getPathName());
             data.add(obj);
         }
         // 创建导出文件
