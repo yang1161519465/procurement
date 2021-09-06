@@ -334,9 +334,34 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
 
     @Override
     public String exportDemandToExcel(Integer bathId, String currentUserId) throws IOException {
-        // 获取当前批次中所有的需求
-        Bath bath = statisticsByBathId(bathId, null);
-        List<Demand> demandList = new ArrayList<>(bath.getDemandList());
+        // 获取当前批次中所有的需求  2021年9月6日18:39:48  修改为全部导出
+//        Bath bath = statisticsByBathId(bathId, null);
+        Bath bath = bathService.getById(bathId);
+        Demand queryParams = new Demand();
+        queryParams.setBathId(bathId);
+        List<Demand> demandList = baseMapper.getList(queryParams);
+        // 获取采购信息
+        List<Procurement> proList = procurementService.getListByBathId(bathId);
+        Map<String, Procurement> proMap = proList.stream()
+                .collect(Collectors.toMap(item ->
+                        item.getItemId() + "-" + item.getUnitId(), item -> item));
+        for (Demand demand : demandList) {
+            String key = demand.getItemId() + "-" + demand.getUnitId();
+            if (proMap.containsKey(key)) {
+                demand.setIsBuy(false);
+                demand.setPrice(proMap.get(key).getCost());
+            } else {
+                // 没有购买
+                demand.setIsBuy(true);
+                // 查询是否有历史记录
+                Procurement procurement = procurementService.getPurchaseRecords(demand.getItemId(),
+                        demand.getUnitId());
+                if (procurement != null) {
+                    // 有购买记录
+                    demand.setPrice(procurement.getCost());
+                }
+            }
+        }
         // 创建要导出的数据结构
         // 表头
         List<String> header = new ArrayList<>(Arrays.asList("物品名称", "描述", "数量", "单位", "单价", 
