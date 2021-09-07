@@ -167,7 +167,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             Demand demand = result.get(key);
             if (proMap.containsKey(key)) {
                 demand.setIsBuy(false);
-                demand.setPrice(proMap.get(key).getCost());
+                demand.setPrice(proMap.get(key).getPrice());
             } else {
                 // 没有购买
                 demand.setIsBuy(true);
@@ -176,7 +176,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
                         demand.getUnitId());
                 if (procurement != null) {
                     // 有购买记录
-                    demand.setPrice(procurement.getCost());
+                    demand.setPrice(procurement.getPrice());
                 }
             }
         }
@@ -349,16 +349,15 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             String key = demand.getItemId() + "-" + demand.getUnitId();
             if (proMap.containsKey(key)) {
                 demand.setIsBuy(false);
-                demand.setPrice(proMap.get(key).getCost());
+                demand.setPrice(proMap.get(key).getPrice());
             } else {
                 // 没有购买
                 demand.setIsBuy(true);
                 // 查询是否有历史记录
-                Procurement procurement = procurementService.getPurchaseRecords(demand.getItemId(),
-                        demand.getUnitId());
+                Procurement procurement = procurementService.getPurchaseRecords(demand.getItemId(), demand.getUnitId());
                 if (procurement != null) {
                     // 有购买记录
-                    demand.setPrice(procurement.getCost());
+                    demand.setPrice(procurement.getPrice());
                 }
             }
         }
